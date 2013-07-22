@@ -1,0 +1,10 @@
+On Linux:
+  Install g++, wxWidgets, and make
+    On Ubuntu: 'sudo apt-get install libwxgtk2.8-dev libwxgtk2.8-dbg build-essential'
+  run 'make' to compile
+
+On Windows: (never tested this)
+  Install cygwin, and make sure to include cvs, gcc-g++, and make in the installation.  Cygwin is a linux emulator that makes programming easier.
+  Setup wxWidgets on cygwin, following these instructions: http://wiki.wxwidgets.org/Cygwin
+  move 'Makefile.windows' to 'Makefile'
+  run 'make' to compile.

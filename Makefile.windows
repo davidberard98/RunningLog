@@ -1,0 +1,34 @@
+all: RunningLog.exe
+
+RunningLog.exe: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o
+	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o `../wxWidgets/wx-config --cxxflags --libs --debug=yes` -o RunningLog.exe
+
+main.o: main.cpp
+	g++ -c main.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+MyFrame.o: MyFrame.cpp
+	g++ -c MyFrame.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+MilesPanel.o: MilesPanel.cpp
+	g++ -c MilesPanel.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+WorkoutNotes.o: WorkoutNotes.cpp
+	g++ -c WorkoutNotes.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+DayOfWeek.o: DayOfWeek.cpp
+	g++ -c DayOfWeek.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+DailyPanel.o: DailyPanel.cpp
+	g++ -c DailyPanel.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+WeekInfo.o: WeekInfo.cpp
+	g++ -c WeekInfo.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+DayRun.o: DayRun.cpp
+	g++ -c DayRun.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+StoreRun.o: StoreRun.cpp
+	g++ -c StoreRun.cpp `../wxWidgets/wx-config --cxxflags --libs --debug=yes`
+
+clean:
+	rm -rf *.o
