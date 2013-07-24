@@ -1,19 +1,19 @@
 #include "DayRun.h"
 
-DayRun::DayRun(int a, int b, int c)
-  :day(a), month(b), year(c), time(-1), distance(-1), milesOrKm(true), week(-1)
+DayRun::DayRun(Dates d)
+  :day(d), time(-1), distance(-1), milesOrKm(true), week(-1)
 {}
-DayRun::DayRun(int a, int b, int c, int d, std::string e)
-  :day(a), month(b), year(c), week(d), season(e), time(-1), distance(-1), milesOrKm(true)
+DayRun::DayRun(Dates a, int d, std::string e)
+  :day(a), week(d), season(e), time(-1), distance(-1), milesOrKm(true)
 {}
-DayRun::DayRun(int d, int m, int y, std::string com, std::string mc, int t, int dist, bool type)
-  :day(d), month(m), year(y), comments(com), moreComments(mc), time(t), distance(dist), milesOrKm(type), week(-1)
+DayRun::DayRun(Dates d, std::string com, std::string mc, int t, int dist, bool type)
+  :day(d), comments(com), moreComments(mc), time(t), distance(dist), milesOrKm(type), week(-1)
 {}
-DayRun::DayRun(int d, int m, int y, std::string com, std::string mc, int t, int dist, bool type, int wk, std::string seas)
-  :day(d), month(m), year(y), comments(com), moreComments(mc), time(t), distance(dist), milesOrKm(type), week(wk), season(seas)
+DayRun::DayRun(Dates d, std::string com, std::string mc, int t, int dist, bool type, int wk, std::string seas)
+  :day(d), comments(com), moreComments(mc), time(t), distance(dist), milesOrKm(type), week(wk), season(seas)
 {}
 DayRun::DayRun(const DayRun& sr)
-  :day(sr.day), month(sr.month), year(sr.year), comments(sr.comments), time(sr.time), distance(sr.distance), milesOrKm(sr.milesOrKm), week(sr.week), season(sr.season)
+  :day(sr.day), comments(sr.comments), time(sr.time), distance(sr.distance), milesOrKm(sr.milesOrKm), week(sr.week), season(sr.season)
 {}
 
 void DayRun::update(std::string comm, std::string mcomm, int t, int dist, bool type, int wk, std::string seas)

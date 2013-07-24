@@ -11,12 +11,11 @@ class StoreRun
 {
 public:
   StoreRun();
-  bool AddComments(const wxChar*, int, int, int);
-  bool AddComments(int, int, int, const wxChar*);
-  bool AddComments(std::string, int, int, int);
-  bool AddComments(int, int, int, std::string);
-                 //comments      d    m   y  
-  int idOfDay(int, int, int);
+  bool AddComments(const wxChar*, Dates);
+  bool AddComments(Dates, const wxChar*);
+  bool AddComments(std::string, Dates);
+  bool AddComments(Dates, std::string);
+  int idOfDay(Dates);
 
   std::vector<DayRun> storage;
 

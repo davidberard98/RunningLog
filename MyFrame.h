@@ -4,6 +4,7 @@
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include <vector>
+#include <iostream>
 
 /*#include "MilesPanel.h"
 #include "WorkoutNotes.h"
@@ -27,7 +28,7 @@ public:
   StoreRun storage;
 //  DailyPanel days[7];
 
-  void ChangeComments(const wxChar* comm);
+  void ChangeComments(const wxChar* comm, const Dates day);
 };
 
 #endif

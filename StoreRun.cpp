@@ -3,40 +3,40 @@
 StoreRun::StoreRun()
 {}
 
-int StoreRun::idOfDay(int a, int b, int c)
+int StoreRun::idOfDay(Dates td)
 {
 for(int i=0;i<storage.size();++i)
   {
-  if(storage[i].day == a && storage[i].month == b && storage[i].year == c)
+  if(storage[i].day == td)
     return i;
   }
 return -1;
 }
 
-bool StoreRun::AddComments(int a, int b, int c, const wxChar* comm)
+bool StoreRun::AddComments(Dates td, const wxChar* comm)
 {
 std::string scomm = std::string(wxString(comm).mb_str());
 std::cout << scomm << std::endl;
-return AddComments(scomm, a, b, c);
+return AddComments(scomm, td);
 }
 
-bool StoreRun::AddComments(const wxChar* comm, int a, int b, int c)
+bool StoreRun::AddComments(const wxChar* comm, Dates td)
 {
 std::string scomm = std::string(wxString(comm).mb_str());
 std::cout << scomm << std::endl;
-return AddComments(scomm, a, b, c);
+return AddComments(scomm, td);
 }
 
-bool StoreRun::AddComments(int a, int b , int c, std::string d)
-{ return AddComments(d, a, b, c); }
+bool StoreRun::AddComments(Dates td, std::string d)
+{ return AddComments(d, td); }
 
-bool StoreRun::AddComments(std::string com, int d, int m, int y)
+bool StoreRun::AddComments(std::string com, Dates td)
 {
-int i=idOfDay(d, m, y);
+int i=idOfDay(td); 
 if(i != -1)
   storage[i].comments = com;
 else
-  storage.push_back(DayRun(d, m, y, com, std::string(""), 0, 0, true));
+  storage.push_back(DayRun(td, com, std::string(""), 0, 0, true));
 
 return true;
 }

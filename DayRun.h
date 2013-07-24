@@ -9,11 +9,11 @@
 class DayRun
 {
 public:
-  DayRun(int, int, int);//dmy
-  DayRun(int, int, int, int, std::string);//dmy week season
-  DayRun(int, int, int, std::string, std::string, int, int, bool);
+  DayRun(Dates);//dmy
+  DayRun(Dates, int, std::string);//dmy week season
+  DayRun(Dates, std::string, std::string, int, int, bool);
   //        d    m    y    comments      moreC     time dist mi/km wk    season
-  DayRun(int, int, int, std::string, std::string, int, int, bool, int, std::string);
+  DayRun(Dates, std::string, std::string, int, int, bool, int, std::string);
   DayRun(const DayRun&);
   void update(std::string, std::string, int, int, bool, int, std::string);
   void updateComments(std::string);
@@ -21,7 +21,7 @@ public:
   void updateType(bool);
   void updateMilesOrKm(bool);
 
-  int day, month, year;
+  Dates day;
   std::string comments;
   std::string moreComments;
   int time; //run time

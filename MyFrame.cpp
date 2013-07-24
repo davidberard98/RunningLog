@@ -46,7 +46,7 @@ this->Centre();
 MyFrame::~MyFrame()
 {}
 
-void MyFrame::ChangeComments(const wxChar* comm)
+void MyFrame::ChangeComments(const wxChar* comm, const Dates day)
 {
-storage.AddComments(comm, 1, 1, 2013);
+storage.AddComments(comm, day);
 }

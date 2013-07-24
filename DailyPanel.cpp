@@ -20,5 +20,5 @@ this->SetSizer(hs);
 
 void DailyPanel::ChangeComments(const wxChar* comm)
 {
-m_parent->ChangeComments(comm);
+m_parent->ChangeComments(comm, today);
 }

@@ -25,6 +25,7 @@ void weekBegin(int, int&, int&, int&) const;
 //Dates weekBegin(int) const;
 std::string dow() const;
 std::string FullDate() const;
+bool operator== (const Dates&) const;
 
 std::string its(int);
 std::string iits(int);

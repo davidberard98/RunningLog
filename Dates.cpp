@@ -118,6 +118,16 @@ std::string Dates::FullDate() const
   return std::string(o);
   }
 
+bool Dates::operator== (const Dates& tc) const
+  {
+  int d=tc.Ctime.tm_mday;
+  int m=tc.Ctime.tm_mon;
+  int y=tc.Ctime.tm_year;
+  if(d == Ctime.tm_mday && m == Ctime.tm_mon && y == Ctime.tm_year)
+    return true;
+  return false;
+  }
+
 std::string Dates::its(int tc)
 {
 std::string to;
