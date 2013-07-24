@@ -10,12 +10,12 @@ Dates today;
 today = today.weekBegin();
 
 days.push_back(new DailyPanel(m_parent, this, today));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(1)));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(2)));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(3)));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(4)));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(5)));
-days.push_back(new DailyPanel(m_parent, this, today.weekBegin(6)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(1)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(2)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(3)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(4)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(5)));
+days.push_back(new DailyPanel(m_parent, this, today.setNew(6)));
 /*
 days[0] = new DailyPanel(m_parent, wxT("Monday"));
 days[1] = new DailyPanel(m_parent, wxT("Tuesday"));

@@ -59,6 +59,20 @@ dateinfo=*localtime(&x);
 Ctime = dateinfo;
 }
 
+Dates Dates::setNew(int off) const
+{
+Dates m(*this);
+m.set(off);
+return m;
+}
+
+Dates Dates::setNew(int d, int m, int y) const
+{
+Dates x(*this);
+x.set(d,m,y);
+return x;
+}
+
 Dates Dates::weekBegin() const
 {
 int d, m, y;
@@ -80,9 +94,10 @@ weekBegin(DAYS_BEGIN_WEEK, d, m, y);
 
 void Dates::weekBegin(int weekbegind, int& d, int& m, int& y) const
   {
+  weekbegind = weekbegind%7;
   struct tm ctc = Ctime;
   time_t x=mktime(&ctc);
-  x-=(weekbegind-Ctime.tm_wday)*24*60*60;
+  x+=(weekbegind-Ctime.tm_wday)*24*60*60;
   struct tm di = *localtime (&x);
   d=di.tm_mday;
   m=di.tm_mon;
@@ -91,9 +106,16 @@ void Dates::weekBegin(int weekbegind, int& d, int& m, int& y) const
 
 std::string Dates::dow() const
   {
-  char aname [9];
-  strftime(aname, 9, "%A", &Ctime);
+  char aname [10];
+  strftime(aname, 10, "%A", &Ctime);
   return std::string(aname);
+  }
+
+std::string Dates::FullDate() const
+  {
+  char o [80];
+  strftime(o, 80, "%A %B %e %G", &Ctime);
+  return std::string(o);
   }
 
 std::string Dates::its(int tc)

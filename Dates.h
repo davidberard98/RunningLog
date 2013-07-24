@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string>
+#include <iostream>
 
 class Dates
 {
@@ -15,12 +16,15 @@ Dates(int, int, int);
 void set();
 void set(int);
 void set(int, int, int);
+Dates setNew(int) const;
+Dates setNew(int, int, int) const;
 Dates weekBegin() const;
 void weekBegin(int&, int&, int&) const;
 Dates weekBegin(int) const;
 void weekBegin(int, int&, int&, int&) const;
 //Dates weekBegin(int) const;
 std::string dow() const;
+std::string FullDate() const;
 
 std::string its(int);
 std::string iits(int);
