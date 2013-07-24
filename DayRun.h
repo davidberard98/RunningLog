@@ -2,8 +2,9 @@
 #define DayRun_h_wxWidgets_Running_Log
 
 #include <wx/string.h>
-
 #include <string>
+
+#include "Dates.h"
 
 class DayRun
 {

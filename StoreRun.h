@@ -5,6 +5,7 @@
 #include "DayRun.h"
 #include <wx/string.h>
 #include <iostream>
+#include "Dates.h"
 
 class StoreRun
 {
