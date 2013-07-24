@@ -6,13 +6,16 @@ MyFrame::MyFrame(const wxChar *title, int xpos, int ypos, int width, int height)
 wxBoxSizer *hs = new wxBoxSizer(wxVERTICAL);
 m_parent = new wxScrolledWindow(this, wxID_ANY);
 
-days.push_back(new DailyPanel(m_parent, this, wxT("Monday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Tuesday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Wednesday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Thursday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Friday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Saturday")));
-days.push_back(new DailyPanel(m_parent, this, wxT("Sunday")));
+Dates today;
+today = today.weekBegin();
+
+days.push_back(new DailyPanel(m_parent, this, today));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(1)));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(2)));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(3)));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(4)));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(5)));
+days.push_back(new DailyPanel(m_parent, this, today.weekBegin(6)));
 /*
 days[0] = new DailyPanel(m_parent, wxT("Monday"));
 days[1] = new DailyPanel(m_parent, wxT("Tuesday"));

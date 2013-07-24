@@ -11,6 +11,7 @@
 #include "DailyPanel.h"
 #include "WeekInfo.h"
 #include "StoreRun.h"
+#include "Dates.h"
 
 class DailyPanel;
 
