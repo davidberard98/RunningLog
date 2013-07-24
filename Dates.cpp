@@ -1,0 +1,150 @@
+#include "Dates.h"
+
+Dates::Dates()
+{
+time_t x;
+time(&x);
+Ctime = *localtime( &x );
+}
+
+Dates::Dates(const Dates& ts)
+{
+Ctime=ts.Ctime;
+}
+
+Dates::Dates(int off)
+{
+time_t x;
+time(&x);
+Ctime = *localtime( &x );
+set(off);
+}
+
+Dates::Dates(int d, int m, int y)
+{
+time_t x;
+time(&x);
+struct tm dateinfo;
+dateinfo = *localtime( &x );
+dateinfo.tm_mday = d;
+dateinfo.tm_mon = m;
+dateinfo.tm_year = y-1900;
+x=mktime(&dateinfo);
+Ctime = *localtime(&x);
+}
+
+void Dates::set()
+{
+time_t x;
+time(&x);
+Ctime = *localtime( &x );
+}
+
+void Dates::set(int off)
+{
+int d, m, y;
+time_t x = mktime(&Ctime);
+x+= off*24*60*60;
+Ctime = *localtime (&x);
+}
+
+void Dates::set(int d, int m, int y)
+{
+struct tm dateinfo = Ctime;
+dateinfo.tm_mday = d;
+dateinfo.tm_mon = m;
+dateinfo.tm_year = y-1900;
+time_t x=mktime(&dateinfo);
+dateinfo=*localtime(&x);
+Ctime = dateinfo;
+}
+
+Dates Dates::weekBegin() const
+{
+int d, m, y;
+weekBegin(DAYS_BEGIN_WEEK, d, m, y);
+return Dates(d, m, y);
+}
+
+Dates Dates::weekBegin(int wb) const
+{
+int d, m, y;
+weekBegin(wb, d, m, y);
+return Dates(d, m, y);
+}
+
+void Dates::weekBegin(int& d, int& m, int& y) const
+{
+weekBegin(DAYS_BEGIN_WEEK, d, m, y);
+}
+
+void Dates::weekBegin(int weekbegind, int& d, int& m, int& y) const
+  {
+  struct tm ctc = Ctime;
+  time_t x=mktime(&ctc);
+  x-=(weekbegind-Ctime.tm_wday)*24*60*60;
+  struct tm di = *localtime (&x);
+  d=di.tm_mday;
+  m=di.tm_mon;
+  y=di.tm_year+1900;
+  }
+
+std::string Dates::dow() const
+  {
+  char aname [9];
+  strftime(aname, 9, "%A", &Ctime);
+  return std::string(aname);
+  }
+
+std::string Dates::its(int tc)
+{
+std::string to;
+while(tc != 0)
+  {
+  int dig = tc%10;
+  int md = tc - dig;
+  tc = md/10;
+  to = iits(dig)+to;
+  }
+return to;
+}
+
+std::string Dates::iits(int tc)
+{
+switch(tc)
+{
+case 0: return "0"; break;
+case 1: return "1"; break;
+case 2: return "2"; break;
+case 3: return "3"; break;
+case 4: return "4"; break;
+case 5: return "5"; break;
+case 6: return "6"; break;
+case 7: return "7"; break;
+case 8: return "8"; break;
+case 9: return "9"; break;
+default:return ""; break;
+}
+return "";
+}
+
+std::string Dates::intToMonth(int mtc)
+{
+switch(mtc)
+{
+case 0: return "January"; break;
+case 1: return "February"; break;
+case 2: return "March"; break;
+case 3: return "April"; break;
+case 4: return "May"; break;
+case 5: return "June"; break;
+case 6: return "July"; break;
+case 7: return "August"; break;
+case 8: return "September"; break;
+case 9: return "October"; break;
+case 10: return "November"; break;
+case 11: return "December"; break;
+default: return "";break;
+}
+return "";
+}
