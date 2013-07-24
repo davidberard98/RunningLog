@@ -20,12 +20,13 @@ public:
 
   MyFrame *m_parent;
   MilesPanel *mp;
+  int wnid, awnid;
   WorkoutNotes *wn;
   WorkoutNotes *awn;
   DayOfWeek *dow;
   const Dates today;
 
-  void ChangeComments(const wxChar* comm);
+  void ChangeComments(const wxChar* comm, int inid);
 
 };
 

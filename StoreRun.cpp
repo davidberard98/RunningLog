@@ -16,14 +16,12 @@ return -1;
 bool StoreRun::AddComments(Dates td, const wxChar* comm)
 {
 std::string scomm = std::string(wxString(comm).mb_str());
-std::cout << scomm << std::endl;
 return AddComments(scomm, td);
 }
 
 bool StoreRun::AddComments(const wxChar* comm, Dates td)
 {
 std::string scomm = std::string(wxString(comm).mb_str());
-std::cout << scomm << std::endl;
 return AddComments(scomm, td);
 }
 
@@ -36,7 +34,74 @@ int i=idOfDay(td);
 if(i != -1)
   storage[i].comments = com;
 else
-  storage.push_back(DayRun(td, com, std::string(""), 0, 0, true));
+  storage.push_back(DayRun(td, com, std::string(""), 0.0, 0.0, true, 5));
+return true;
+}
 
+bool StoreRun::AddMoreComments(Dates td, const wxChar* comm)
+{
+std::string scomm = std::string(wxString(comm).mb_str());
+return AddMoreComments(scomm, td);
+}
+
+bool StoreRun::AddMoreComments(const wxChar* comm, Dates td)
+{
+std::string scomm = std::string(wxString(comm).mb_str());
+return AddMoreComments(scomm, td);
+}
+
+bool StoreRun::AddMoreComments(Dates td, std::string d)
+{ return AddMoreComments(d, td); }
+
+bool StoreRun::AddMoreComments(std::string com, Dates td)
+{
+int i=idOfDay(td); 
+if(i != -1)
+  storage[i].moreComments = com;
+else
+  storage.push_back(DayRun(td, std::string(""), com, 0.0, 0.0, true, 5));
+return true;
+}
+
+bool StoreRun::AddTime(double t, Dates td)
+{
+int i=idOfDay(td); 
+if(i != -1)
+  storage[i].time = t;
+else
+  storage.push_back(DayRun(td, std::string(""), std::string(""), t, 0.0, true, 5));
+return true;
+}
+
+bool StoreRun::AddType(bool t, Dates td)
+{
+int i=idOfDay(td); 
+if(i != -1)
+  storage[i].milesOrKm = t;
+else
+  storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, 0.0, t, 5));
+return true;
+}
+
+bool StoreRun::AddMilesOrKm(bool t, Dates td)
+{ return AddType(t, td); }
+
+bool StoreRun::AddDistance(double d, Dates td)
+{
+int i=idOfDay(td); 
+if(i != -1)
+  storage[i].distance=d;
+else
+  storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, d, true, 5));
+return true;
+}
+
+bool StoreRun::AddFeeling(int f, Dates td)
+{
+int i=idOfDay(td); 
+if(i != -1)
+  storage[i].feeling=f;
+else
+  storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, 0.0, true, f));
 return true;
 }

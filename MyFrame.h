@@ -29,6 +29,7 @@ public:
 //  DailyPanel days[7];
 
   void ChangeComments(const wxChar* comm, const Dates day);
+  void ChangeMoreComments(const wxChar* comm, const Dates day);
 };
 
 #endif

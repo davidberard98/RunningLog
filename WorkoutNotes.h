@@ -12,8 +12,9 @@ class DailyPanel;
 class WorkoutNotes : public wxPanel
 {
 public:
-  WorkoutNotes(DailyPanel *parent, int min_width, const wxChar* message);
+  WorkoutNotes(DailyPanel *parent, int tid, int min_width, const wxChar* message);
   
+  const int ID;
   int notesID;
   wxTextCtrl *notes;
   DailyPanel *m_parent;

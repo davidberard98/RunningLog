@@ -50,3 +50,8 @@ void MyFrame::ChangeComments(const wxChar* comm, const Dates day)
 {
 storage.AddComments(comm, day);
 }
+
+void MyFrame::ChangeMoreComments(const wxChar* comm, const Dates day)
+{
+storage.AddMoreComments(comm, day);
+}

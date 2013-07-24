@@ -5,8 +5,10 @@ DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, const Dates tday)
 {
 m_parent=rparent;
 mp = new MilesPanel(this);
-wn = new WorkoutNotes(this, 300, wxT("Notes on Workout:"));
-awn = new WorkoutNotes(this, 200, wxT("Additional activities:"));
+wnid=wxID_ANY;
+wn = new WorkoutNotes(this, wnid, 300, wxT("Notes on Workout:"));
+awnid=wxID_ANY;
+awn = new WorkoutNotes(this, awnid, 200, wxT("Additional activities:"));
 dow = new DayOfWeek(this, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
 
 wxBoxSizer *hs = new wxBoxSizer(wxHORIZONTAL);
@@ -18,7 +20,10 @@ this->SetSizer(hs);
 
 }
 
-void DailyPanel::ChangeComments(const wxChar* comm)
+void DailyPanel::ChangeComments(const wxChar* comm, int inid)
 {
-m_parent->ChangeComments(comm, today);
+if(inid == wnid)
+  m_parent->ChangeComments(comm, today);
+if(inid == awnid)
+  m_parent->ChangeMoreComments(comm, today);
 }
