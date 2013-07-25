@@ -78,7 +78,7 @@ return true;
 
 bool StoreRun::AddType(bool t, Dates td)
 {
-std::cout << "SR::AType" << std::endl;
+std::cout << "SR::AType" << t << std::endl;
 int i=idOfDay(td); 
 if(i != -1)
   storage[i].milesOrKm = t;
@@ -103,7 +103,7 @@ return true;
 
 bool StoreRun::AddFeeling(int f, Dates td)
 {
-std::cout << "SR:AF" << std::endl;
+std::cout << "SR:AF" << f << std::endl;
 int i=idOfDay(td); 
 if(i != -1)
   storage[i].feeling=f;

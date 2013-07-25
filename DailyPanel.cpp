@@ -32,3 +32,8 @@ void DailyPanel::ChangeDistance(const double d)
   {
   m_parent->ChangeDistance(d, today);
   }
+
+void DailyPanel::ChangeType(bool t)
+  {
+  m_parent->ChangeType(t, today);
+  }

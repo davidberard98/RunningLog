@@ -60,3 +60,8 @@ void MyFrame::ChangeDistance(const double d, const Dates day)
   {
   storage.AddDistance(d, day);
   }
+
+void MyFrame::ChangeType(bool t, const Dates day)
+  {
+  storage.AddType(t, day);
+  }

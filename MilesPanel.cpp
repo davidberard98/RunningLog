@@ -21,7 +21,7 @@ mkid=153;
 miles_text = new wxTextCtrl(distance, mtid, wxT(""), wxDefaultPosition, wxSize(35,25));
 miKm = new wxComboBox(distance, mkid, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
 Connect(mtid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MilesChanged));
-//Connect(mkid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MiKmChanged));
+Connect(mkid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MiKmChanged));
 
 wxBoxSizer *dspace = new wxBoxSizer(wxHORIZONTAL);
 dspace->Add(miles_text,0);
@@ -66,7 +66,10 @@ void MilesPanel::MilesChanged(wxCommandEvent & WXUNUSED(event))
   std::string v = std::string(miles_text->GetValue().mb_str());
   m_parent->ChangeDistance(d.stringToDouble(v));
   }
-//void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
-//  {
-//  
-//  }
+void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
+  {
+  if(std::string(miKm->GetValue().mb_str()) == "km")
+    m_parent->ChangeType(false);
+  else
+    m_parent->ChangeType(true);
+  }

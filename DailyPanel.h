@@ -29,6 +29,7 @@ public:
 
   void ChangeComments(const wxChar* comm, int inid);
   void ChangeDistance(const double d);
+  void ChangeType(bool t);
 
 };
 

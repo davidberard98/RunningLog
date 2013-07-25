@@ -31,6 +31,7 @@ public:
   void ChangeComments(const wxChar* comm, const Dates day);
   void ChangeMoreComments(const wxChar* comm, const Dates day);
   void ChangeDistance(const double d, const Dates day);
+  void ChangeType(bool t, const Dates day);
 };
 
 #endif
