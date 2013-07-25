@@ -15,10 +15,12 @@ class MilesPanel : public wxPanel
 public:
   MilesPanel(wxWindow *parent, DailyPanel *rparent);
 
+  Dates d;
   DailyPanel *m_parent;
   wxTextCtrl *miles_text;
   wxStaticText *mt_label;
   int mtid, mkid;
+  int thid, tmid, tsid;
   wxStaticText *time_label;
   wxTextCtrl *hours;
   wxTextCtrl *minutes;
@@ -27,7 +29,7 @@ public:
 
   void MilesChanged(wxCommandEvent & event);
   void MiKmChanged(wxCommandEvent & event);
-  
+  void TimeChanged(wxCommandEvent & event);
 };
 
 #endif

@@ -67,7 +67,7 @@ return true;
 
 bool StoreRun::AddTime(double t, Dates td)
 {
-std::cout << "SR::ATime" << std::endl;
+std::cout << "SR::ATime " << t << " " << int(t/3600) << ":" << int((t-int(t/3600)*3600)/60) << ":" << t-int((t-int(t/3600)*3600)/60)*60-int(t/3600)*3600 <<std::endl;
 int i=idOfDay(td); 
 if(i != -1)
   storage[i].time = t;

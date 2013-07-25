@@ -31,6 +31,7 @@ std::string its(int);
 std::string iits(int);
 std::string intToMonth(int);
 double stringToDouble(std::string);
+std::string doubleToString(double);
 int power(int, int);
 
 //time_t Ctime;

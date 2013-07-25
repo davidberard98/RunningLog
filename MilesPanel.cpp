@@ -29,9 +29,15 @@ dspace->Add(miKm, 0);
 
 distance->SetSizer(dspace);
 
-hours = new wxTextCtrl(hms, -1, wxT(""), wxDefaultPosition, wxSize(20,25));
-minutes = new wxTextCtrl(hms, -1, wxT(""), wxDefaultPosition, wxSize(28,25));
-seconds = new wxTextCtrl(hms, -1, wxT(""), wxDefaultPosition, wxSize(28,25));
+thid = 155;
+tmid = 156;
+tsid = 157;
+hours = new wxTextCtrl(hms, thid, wxT(""), wxDefaultPosition, wxSize(20,25));
+minutes = new wxTextCtrl(hms, tmid, wxT(""), wxDefaultPosition, wxSize(28,25));
+seconds = new wxTextCtrl(hms, tsid, wxT(""), wxDefaultPosition, wxSize(28,25));
+Connect(thid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
+Connect(tmid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
+Connect(tsid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
 
 wxStaticText *colon = new wxStaticText(hms, -1, wxT(":"),wxDefaultPosition);
 wxStaticText *colon2 = new wxStaticText(hms, -1, wxT(":"),wxDefaultPosition);
@@ -62,7 +68,6 @@ this->SetSizer(vspace);
 
 void MilesPanel::MilesChanged(wxCommandEvent & WXUNUSED(event))
   {
-  Dates d;
   std::string v = std::string(miles_text->GetValue().mb_str());
   m_parent->ChangeDistance(d.stringToDouble(v));
   }
@@ -72,4 +77,28 @@ void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
     m_parent->ChangeType(false);
   else
     m_parent->ChangeType(true);
+  }
+void MilesPanel::TimeChanged(wxCommandEvent & WXUNUSED(event))
+  {
+  std::cout << "MP:TC" << std::endl;
+  int h = int(d.stringToDouble(std::string(hours->GetValue().mb_str())));
+  int m = int(d.stringToDouble(std::string(minutes->GetValue().mb_str())));
+  double s = d.stringToDouble(std::string(seconds->GetValue().mb_str()));
+  if(s >= 60)
+    {
+    double ns = s-60;
+    int nm = m+1;
+    seconds->SetValue(wxString(d.doubleToString(ns).c_str(), wxConvUTF8));
+    minutes->SetValue(wxString(d.doubleToString(nm).c_str(), wxConvUTF8));
+    }
+  if(m >= 60)
+    {
+    double nm = m-60;
+    int nh = h+1;
+    minutes->SetValue(wxString(d.doubleToString(nm).c_str(), wxConvUTF8));
+    hours->SetValue(wxString(d.doubleToString(nh).c_str(), wxConvUTF8));
+    }
+  s+=m*60;
+  s+=h*60*60;
+  m_parent->ChangeTime(s);
   }

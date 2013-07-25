@@ -209,6 +209,24 @@ for(int i=0;i<in.length();++i)
 double out = bef + double(aft)/power(10,as);
 return out;
 }
+std::string Dates::doubleToString(double in)
+{
+std::string out = its(int(in));
+double afta = in-int(in);
+int aftb = 0;
+while(afta != 0.0)
+  {
+  afta *=10;
+  aftb *=10;
+  aftb +=int(afta);
+  afta -= int(afta);
+  }
+if(aftb!=0)
+  {
+  out+="."+its(aftb);
+  }
+return out;
+}
 
 int Dates::power (int base, int exp)
 {

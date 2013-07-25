@@ -37,3 +37,8 @@ void DailyPanel::ChangeType(bool t)
   {
   m_parent->ChangeType(t, today);
   }
+
+void DailyPanel::ChangeTime(double t)
+  {
+  m_parent->ChangeTime(t, today);
+  }

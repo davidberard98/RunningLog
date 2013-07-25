@@ -65,3 +65,8 @@ void MyFrame::ChangeType(bool t, const Dates day)
   {
   storage.AddType(t, day);
   }
+
+void MyFrame::ChangeTime(double t, const Dates day)
+  {
+  storage.AddTime(t, day);
+  }
