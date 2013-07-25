@@ -180,3 +180,40 @@ default: return "";break;
 }
 return "";
 }
+
+double Dates::stringToDouble(std::string in)
+{
+int bef =0;
+int aft =0;
+int as =0;
+bool boa = false;
+for(int i=0;i<in.length();++i)
+  {
+  if(in.at(i) == '.')
+    boa = true;
+  if(in.at(i) >= 48 && in.at(i) <= 57)
+    {
+    if(boa == false)
+      {
+      bef*=10;
+      bef+=int(in.at(i)-48);
+      }
+    else
+      {
+      aft*=10;
+      aft+=int(in.at(i)-48);
+      ++as;
+      }
+    }
+  }
+double out = bef + double(aft)/power(10,as);
+return out;
+}
+
+int Dates::power (int base, int exp)
+{
+int nb=1;
+for(int i=0;i<exp; ++i)
+  nb*=base;
+return nb;
+}

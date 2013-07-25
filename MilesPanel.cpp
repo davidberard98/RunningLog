@@ -1,9 +1,11 @@
 #include "MilesPanel.h"
 #include <string>
 
-MilesPanel::MilesPanel(wxWindow *parent)
+MilesPanel::MilesPanel(wxWindow *parent, DailyPanel *rparent)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
 {
+m_parent=rparent;
+
 wxBoxSizer *vspace = new wxBoxSizer(wxVERTICAL);
 
 wxPanel *hms = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
@@ -14,8 +16,12 @@ time_label = new wxStaticText(this, -1, wxT("Time (h:m:s):"), wxDefaultPosition)
 
 const wxString dop[] = { wxT("mi") , wxT("km") };
 
-miles_text = new wxTextCtrl(distance, -1, wxT(""), wxDefaultPosition, wxSize(35,25));
-miKm = new wxComboBox(distance, -1, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
+mtid=152;
+mkid=153;
+miles_text = new wxTextCtrl(distance, mtid, wxT(""), wxDefaultPosition, wxSize(35,25));
+miKm = new wxComboBox(distance, mkid, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
+Connect(mtid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MilesChanged));
+//Connect(mkid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MiKmChanged));
 
 wxBoxSizer *dspace = new wxBoxSizer(wxHORIZONTAL);
 dspace->Add(miles_text,0);
@@ -53,3 +59,14 @@ vspace->Add(hms, 0, wxEXPAND);
 
 this->SetSizer(vspace);
 }
+
+void MilesPanel::MilesChanged(wxCommandEvent & WXUNUSED(event))
+  {
+  Dates d;
+  std::string v = std::string(miles_text->GetValue().mb_str());
+  m_parent->ChangeDistance(d.stringToDouble(v));
+  }
+//void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
+//  {
+//  
+//  }

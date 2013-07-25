@@ -30,6 +30,8 @@ bool operator== (const Dates&) const;
 std::string its(int);
 std::string iits(int);
 std::string intToMonth(int);
+double stringToDouble(std::string);
+int power(int, int);
 
 //time_t Ctime;
 struct tm Ctime;

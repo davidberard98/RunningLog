@@ -3,11 +3,11 @@
 DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, const Dates tday)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize), today(tday)
 {
+wnid=150;
+awnid=151;
 m_parent=rparent;
-mp = new MilesPanel(this);
-wnid=wxID_ANY;
+mp = new MilesPanel(this, this);
 wn = new WorkoutNotes(this, wnid, 300, wxT("Notes on Workout:"));
-awnid=wxID_ANY;
 awn = new WorkoutNotes(this, awnid, 200, wxT("Additional activities:"));
 dow = new DayOfWeek(this, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
 
@@ -27,3 +27,8 @@ if(inid == wnid)
 if(inid == awnid)
   m_parent->ChangeMoreComments(comm, today);
 }
+
+void DailyPanel::ChangeDistance(const double d)
+  {
+  m_parent->ChangeDistance(d, today);
+  }

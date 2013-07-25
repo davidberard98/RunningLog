@@ -47,11 +47,16 @@ MyFrame::~MyFrame()
 {}
 
 void MyFrame::ChangeComments(const wxChar* comm, const Dates day)
-{
-storage.AddComments(comm, day);
-}
+  {
+  storage.AddComments(comm, day);
+  }
 
 void MyFrame::ChangeMoreComments(const wxChar* comm, const Dates day)
-{
-storage.AddMoreComments(comm, day);
-}
+  {
+  storage.AddMoreComments(comm, day);
+  }
+
+void MyFrame::ChangeDistance(const double d, const Dates day)
+  {
+  storage.AddDistance(d, day);
+  }

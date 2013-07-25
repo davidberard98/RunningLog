@@ -22,7 +22,7 @@ public:
   bool AddTime(double, Dates);
   bool AddType(bool, Dates);
   bool AddMilesOrKm(bool, Dates);
-  bool AddDistance(double, Dates);
+  bool AddDistance(const double, Dates);
   bool AddFeeling(int, Dates);
   
   int idOfDay(Dates);

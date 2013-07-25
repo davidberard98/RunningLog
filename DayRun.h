@@ -22,7 +22,7 @@ public:
   void updateMilesOrKm(bool);
   void clear();
 
-  Dates day;
+  Dates day; //perhaps stored [a-zA-Z day][month A-Z][year a-zA-Z][year a-zA-Z] -> uses 32 bits.
   std::string comments;
   std::string moreComments;
   double time; //run time

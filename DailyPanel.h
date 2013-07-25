@@ -12,6 +12,7 @@
 
 class MyFrame;
 class WorkoutNotes;
+class MilesPanel;
 
 class DailyPanel : public wxPanel
 {
@@ -27,6 +28,7 @@ public:
   const Dates today;
 
   void ChangeComments(const wxChar* comm, int inid);
+  void ChangeDistance(const double d);
 
 };
 

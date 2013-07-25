@@ -3,7 +3,7 @@
 WorkoutNotes::WorkoutNotes(DailyPanel *parent, int tid, int min_width, const wxChar* message)
   :wxPanel(parent, tid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE), ID(tid)
 {
-notesID = wxID_ANY;
+notesID = 154;
 m_parent=parent;
 notes= new wxTextCtrl(this, notesID, message, wxDefaultPosition, wxSize(min_width, 80), wxTE_MULTILINE);
 Connect(notesID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(WorkoutNotes::onChange));
