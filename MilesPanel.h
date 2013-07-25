@@ -13,7 +13,7 @@ class DailyPanel;
 class MilesPanel : public wxPanel
 {
 public:
-  MilesPanel(wxWindow *parent, DailyPanel *rparent);
+  MilesPanel(DailyPanel *parent);
 
   Dates d;
   DailyPanel *m_parent;

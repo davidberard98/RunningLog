@@ -6,7 +6,7 @@ DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, const Dates tday)
 wnid=150;
 awnid=151;
 m_parent=rparent;
-mp = new MilesPanel(this, this);
+mp = new MilesPanel(this);
 wn = new WorkoutNotes(this, wnid, 300, wxT("Notes on Workout:"));
 awn = new WorkoutNotes(this, awnid, 200, wxT("Additional activities:"));
 dow = new DayOfWeek(this, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
@@ -41,4 +41,9 @@ void DailyPanel::ChangeType(bool t)
 void DailyPanel::ChangeTime(double t)
   {
   m_parent->ChangeTime(t, today);
+  }
+
+void DailyPanel::ChangeFeeling(int f)
+  {
+  m_parent->ChangeFeeling(f, today);
   }

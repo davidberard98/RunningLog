@@ -4,10 +4,16 @@
 #include <wx/wx.h>
 #include <wx/panel.h>
 
+#include "DailyPanel.h"
+
+class DailyPanel;
+
 class DayOfWeek : public wxPanel
 {
 public:
-  DayOfWeek(wxWindow* parent, const wxChar* day);
+  DayOfWeek(DailyPanel *parent, const wxChar* day);
+ 
+  DailyPanel *m_parent;
   wxComboBox *cb_feeling;
   int cbid;
   void feeling(wxCommandEvent & event);

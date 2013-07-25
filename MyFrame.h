@@ -33,6 +33,7 @@ public:
   void ChangeDistance(const double d, const Dates day);
   void ChangeType(bool t, const Dates day);
   void ChangeTime(double t, const Dates day);
+  void ChangeFeeling(int f, const Dates day);
 };
 
 #endif

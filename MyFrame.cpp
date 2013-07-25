@@ -70,3 +70,8 @@ void MyFrame::ChangeTime(double t, const Dates day)
   {
   storage.AddTime(t, day);
   }
+
+void MyFrame::ChangeFeeling(int f, const Dates day)
+  {
+  storage.AddFeeling(f, day);
+  }

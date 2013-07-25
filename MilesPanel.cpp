@@ -1,10 +1,10 @@
 #include "MilesPanel.h"
 #include <string>
 
-MilesPanel::MilesPanel(wxWindow *parent, DailyPanel *rparent)
+MilesPanel::MilesPanel(DailyPanel *parent)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
 {
-m_parent=rparent;
+m_parent=parent;
 
 wxBoxSizer *vspace = new wxBoxSizer(wxVERTICAL);
 

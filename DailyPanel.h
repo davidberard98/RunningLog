@@ -13,6 +13,7 @@
 class MyFrame;
 class WorkoutNotes;
 class MilesPanel;
+class DayOfWeek;
 
 class DailyPanel : public wxPanel
 {
@@ -31,6 +32,7 @@ public:
   void ChangeDistance(const double d);
   void ChangeType(bool t);
   void ChangeTime(double t);
+  void ChangeFeeling(int f);
 
 };
 
