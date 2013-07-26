@@ -1,9 +1,9 @@
 #include "MilesPanel.h"
-#include <string>
 
-MilesPanel::MilesPanel(DailyPanel *parent)
+MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
 {
+IdManage=idm;
 m_parent=parent;
 
 wxBoxSizer *vspace = new wxBoxSizer(wxVERTICAL);
@@ -16,8 +16,8 @@ time_label = new wxStaticText(this, -1, wxT("Time (h:m:s):"), wxDefaultPosition)
 
 const wxString dop[] = { wxT("mi") , wxT("km") };
 
-mtid=152;
-mkid=153;
+mtid=IdManage->get();
+mkid=IdManage->get();
 miles_text = new wxTextCtrl(distance, mtid, wxT(""), wxDefaultPosition, wxSize(35,25));
 miKm = new wxComboBox(distance, mkid, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
 Connect(mtid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MilesChanged));
@@ -29,9 +29,9 @@ dspace->Add(miKm, 0);
 
 distance->SetSizer(dspace);
 
-thid = 155;
-tmid = 156;
-tsid = 157;
+thid = IdManage->get();
+tmid = IdManage->get();
+tsid = IdManage->get();
 hours = new wxTextCtrl(hms, thid, wxT(""), wxDefaultPosition, wxSize(20,25));
 minutes = new wxTextCtrl(hms, tmid, wxT(""), wxDefaultPosition, wxSize(28,25));
 seconds = new wxTextCtrl(hms, tsid, wxT(""), wxDefaultPosition, wxSize(28,25));

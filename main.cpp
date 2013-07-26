@@ -4,6 +4,7 @@
 #include "MilesPanel.h"
 #include "WorkoutNotes.h"
 #include "StoreRun.h"
+#include "rlIds.h"
 
 class RLog : public wxApp
 {
@@ -17,7 +18,8 @@ IMPLEMENT_APP(RLog);
 
 bool RLog::OnInit()
 {
-MyFrame *frame = new MyFrame(wxT("Running Log"), 100, 100, 850, 600);
+rlIds IdManage;
+MyFrame *frame = new MyFrame(wxT("Running Log"), &IdManage, 100, 100, 850, 600);
 frame->Show(true);
 SetTopWindow(frame);
 return true;

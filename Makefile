@@ -1,7 +1,7 @@
 all: RunningLog
 
-RunningLog: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o
-	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o `wx-config --libs` `wx-config --cxxflags` -o RunningLog
+RunningLog: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o rlIds.o
+	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o rlIds.o `wx-config --libs` `wx-config --cxxflags` -o RunningLog
 
 main.o: main.cpp
 	g++ -c main.cpp `wx-config --libs` `wx-config --cxxflags`
@@ -32,6 +32,9 @@ StoreRun.o: StoreRun.cpp
 
 Dates.o: Dates.cpp
 	g++ -c Dates.cpp `wx-config --libs` `wx-config --cxxflags`
+
+rlIds.o: rlIds.cpp
+	g++ -c rlIds.cpp `wx-config --libs` `wx-config --cxxflags`
 
 clean:
 	rm -rf *.o

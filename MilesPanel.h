@@ -7,14 +7,16 @@
 
 #include "Dates.h"
 #include "DailyPanel.h"
+#include "rlIds.h"
 
 class DailyPanel;
 
 class MilesPanel : public wxPanel
 {
 public:
-  MilesPanel(DailyPanel *parent);
+  MilesPanel(DailyPanel *parent, rlIds *idm);
 
+  rlIds *IdManage;
   Dates d;
   DailyPanel *m_parent;
   wxTextCtrl *miles_text;

@@ -1,8 +1,9 @@
 #include "WeekInfo.h"
 
-WeekInfo::WeekInfo(wxWindow *parent, int weekNo, const wxChar *season, int beginDay, int beginMonth, int beginYear)
+WeekInfo::WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar *season, int beginDay, int beginMonth, int beginYear)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
 {
+IdManage=idm;
 wxBoxSizer *hs = new wxBoxSizer(wxHORIZONTAL);
 if(weekNo > 0)
   wxWeekNo = new wxStaticText(this, wxID_ANY, wxString::Format(wxT("%d"), weekNo), wxDefaultPosition);
@@ -21,7 +22,7 @@ ActualDate->SetFont(font);
 wxStaticText *SeasonFormatted = new wxStaticText(this, wxID_ANY, season, wxDefaultPosition);
 SeasonFormatted->SetFont(font);
 
-editID = wxID_ANY;
+editID = IdManage->get();
 editButton = new wxButton(this, editID, wxT("Edit"), wxDefaultPosition);
 Connect(editID, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(WeekInfo::Edit));
 

@@ -1,9 +1,10 @@
 #include "DayOfWeek.h"
 #include <string>
 
-DayOfWeek::DayOfWeek(DailyPanel *parent, const wxChar* day)
+DayOfWeek::DayOfWeek(DailyPanel *parent, rlIds *idm, const wxChar* day)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(100,80), wxBORDER_NONE)
 {
+IdManage=idm;
 m_parent = parent;
 wxStaticText *st = new wxStaticText(this, -1, day);
 wxFont font = st->GetFont();

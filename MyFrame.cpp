@@ -1,21 +1,22 @@
 #include "MyFrame.h"
 
-MyFrame::MyFrame(const wxChar *title, int xpos, int ypos, int width, int height)
+MyFrame::MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width, int height)
   :wxFrame((wxFrame *) NULL, -1, title, wxPoint(xpos, ypos), wxSize(width, height)/*, wxVSCROLL | wxHSCROLL*/)
 {
+IdManage=idm;
 wxBoxSizer *hs = new wxBoxSizer(wxVERTICAL);
 m_parent = new wxScrolledWindow(this, wxID_ANY);
 
 Dates today;
 today = today.weekBegin();
 
-days.push_back(new DailyPanel(m_parent, this, today));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(1)));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(2)));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(3)));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(4)));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(5)));
-days.push_back(new DailyPanel(m_parent, this, today.setNew(6)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(1)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(2)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(3)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(4)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(5)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(6)));
 /*
 days[0] = new DailyPanel(m_parent, wxT("Monday"));
 days[1] = new DailyPanel(m_parent, wxT("Tuesday"));
@@ -25,7 +26,7 @@ days[4] = new DailyPanel(m_parent, wxT("Friday"));
 days[5] = new DailyPanel(m_parent, wxT("Saturday"));
 days[6] = new DailyPanel(m_parent, wxT("Sunday"));*/
 
-weekinfo = new WeekInfo(m_parent, 5, wxT("Summer Training"), 1, 1, 2013);
+weekinfo = new WeekInfo(m_parent, IdManage, 5, wxT("Summer Training"), 1, 1, 2013);
 
 hs->Add(weekinfo, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, 5);
 

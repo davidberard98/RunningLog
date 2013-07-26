@@ -1,10 +1,12 @@
 #include "WorkoutNotes.h"
 
-WorkoutNotes::WorkoutNotes(DailyPanel *parent, int tid, int min_width, const wxChar* message)
+WorkoutNotes::WorkoutNotes(DailyPanel *parent, rlIds *idm, int tid, int min_width, const wxChar* message)
   :wxPanel(parent, tid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE), ID(tid)
 {
-notesID = 154;
+IdManage=idm;
 m_parent=parent;
+
+notesID = IdManage->get();
 notes= new wxTextCtrl(this, notesID, message, wxDefaultPosition, wxSize(min_width, 80), wxTE_MULTILINE);
 Connect(notesID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(WorkoutNotes::onChange));
 

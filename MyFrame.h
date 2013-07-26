@@ -13,15 +13,17 @@
 #include "WeekInfo.h"
 #include "StoreRun.h"
 #include "Dates.h"
+#include "rlIds.h"
 
 class DailyPanel;
 
 class MyFrame : public wxFrame
 {
 public:
-  MyFrame(const wxChar *title, int xpos, int ypos, int width, int height);
+  MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width, int height);
   ~MyFrame();
   //wxPanel *m_parent;
+  rlIds *IdManage;
   wxScrolledWindow *m_parent;
   std::vector< DailyPanel* > days;
   WeekInfo *weekinfo;

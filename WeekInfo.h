@@ -5,11 +5,14 @@
 #include <wx/panel.h>
 #include <string>
 
+#include "rlIds.h"
+
 class WeekInfo : public wxPanel
 {
 public:
-  WeekInfo(wxWindow *parent, int weekNo, const wxChar* season, int beginDay, int beginMonth, int beginYear);
+  WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar* season, int beginDay, int beginMonth, int beginYear);
 
+  rlIds *IdManage;
   wxStaticText *wxWeekNo;
   wxButton *editButton;
 

@@ -9,6 +9,7 @@
 #include "MilesPanel.h"
 #include "DayOfWeek.h"
 #include "Dates.h"
+#include "rlIds.h"
 
 class MyFrame;
 class WorkoutNotes;
@@ -18,8 +19,9 @@ class DayOfWeek;
 class DailyPanel : public wxPanel
 {
 public:
-  DailyPanel(wxWindow *parent, MyFrame *rparent, const Dates tday);
+  DailyPanel(wxWindow *parent, rlIds *idm, MyFrame *rparent, const Dates tday);
 
+  rlIds *IdManage;
   MyFrame *m_parent;
   MilesPanel *mp;
   int wnid, awnid;

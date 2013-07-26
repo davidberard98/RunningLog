@@ -1,15 +1,16 @@
 #include "DailyPanel.h"
 
-DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, const Dates tday)
+DailyPanel::DailyPanel(wxWindow *parent, rlIds *idm, MyFrame *rparent, const Dates tday)
   :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize), today(tday)
 {
-wnid=150;
-awnid=151;
+IdManage=idm;
+wnid=IdManage->get();
+awnid=IdManage->get();
 m_parent=rparent;
-mp = new MilesPanel(this);
-wn = new WorkoutNotes(this, wnid, 300, wxT("Notes on Workout:"));
-awn = new WorkoutNotes(this, awnid, 200, wxT("Additional activities:"));
-dow = new DayOfWeek(this, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
+mp = new MilesPanel(this, IdManage);
+wn = new WorkoutNotes(this, IdManage, wnid, 300, wxT("Notes on Workout:"));
+awn = new WorkoutNotes(this, IdManage, awnid, 200, wxT("Additional activities:"));
+dow = new DayOfWeek(this, IdManage, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
 
 wxBoxSizer *hs = new wxBoxSizer(wxHORIZONTAL);
 hs->Add(dow, 0, wxALL, 10);
