@@ -1,22 +1,30 @@
 #include "MyFrame.h"
 
 MyFrame::MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width, int height)
-  :wxFrame((wxFrame *) NULL, -1, title, wxPoint(xpos, ypos), wxSize(width, height)/*, wxVSCROLL | wxHSCROLL*/)
+  :wxFrame((wxFrame *) NULL, -1, title, wxPoint(xpos, ypos), wxSize(width, height), wxDEFAULT_FRAME_STYLE | wxWANTS_CHARS)
 {
 IdManage=idm;
+ID=IdManage->get();
 wxBoxSizer *hs = new wxBoxSizer(wxVERTICAL);
 m_parent = new wxScrolledWindow(this, wxID_ANY);
 
 Dates today;
 today = today.weekBegin();
 
-days.push_back(new DailyPanel(m_parent, IdManage, this, today));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(1)));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(2)));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(3)));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(4)));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(5)));
-days.push_back(new DailyPanel(m_parent, IdManage, this, today.setNew(6)));
+std::vector < int > dpid;
+for(int i=0;i<7;++i)
+  {
+  dpid.push_back(IdManage->get(ID));
+  }
+
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[0], today));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[1], today.setNew(1)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[2], today.setNew(2)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[3], today.setNew(3)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[4], today.setNew(4)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[5], today.setNew(5)));
+days.push_back(new DailyPanel(m_parent, IdManage, this, dpid[6], today.setNew(6)));
+
 /*
 days[0] = new DailyPanel(m_parent, wxT("Monday"));
 days[1] = new DailyPanel(m_parent, wxT("Tuesday"));

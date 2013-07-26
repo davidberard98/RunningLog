@@ -18,7 +18,7 @@ IMPLEMENT_APP(RLog);
 
 bool RLog::OnInit()
 {
-rlIds IdManage;
+static rlIds IdManage;
 MyFrame *frame = new MyFrame(wxT("Running Log"), &IdManage, 100, 100, 850, 600);
 frame->Show(true);
 SetTopWindow(frame);

@@ -38,3 +38,5 @@ rlIds.o: rlIds.cpp
 
 clean:
 	rm -rf *.o
+
+#rules

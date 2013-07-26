@@ -24,6 +24,7 @@ public:
   ~MyFrame();
   //wxPanel *m_parent;
   rlIds *IdManage;
+  int ID;
   wxScrolledWindow *m_parent;
   std::vector< DailyPanel* > days;
   WeekInfo *weekinfo;
@@ -36,6 +37,8 @@ public:
   void ChangeType(bool t, const Dates day);
   void ChangeTime(double t, const Dates day);
   void ChangeFeeling(int f, const Dates day);
+
+//  DECLARE_EVENT_TABLE()
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <wx/string.h> // to include wxID_HIGHEST
 #include <vector>
 #include <string>
+#include <iostream>
 
 /********************************
  *when an wxID is needed in the program (for example, a wxTextCtrl or wxPanel), it will return a valid id which hasn't been used

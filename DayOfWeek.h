@@ -11,14 +11,16 @@ class DailyPanel;
 class DayOfWeek : public wxPanel
 {
 public:
-  DayOfWeek(DailyPanel *parent, rlIds *idm, const wxChar* day);
+  DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* day);
  
+  int ID;
   rlIds *IdManage;
   DailyPanel *m_parent;
   wxComboBox *cb_feeling;
   int cbid;
-  void feeling(wxCommandEvent & event);
   int fval;
+
+  void feeling(wxCommandEvent & event);
 
 };
 

@@ -14,8 +14,9 @@ class DailyPanel;
 class MilesPanel : public wxPanel
 {
 public:
-  MilesPanel(DailyPanel *parent, rlIds *idm);
+  MilesPanel(DailyPanel *parent, rlIds *idm, int iid);
 
+  int ID;
   rlIds *IdManage;
   Dates d;
   DailyPanel *m_parent;
@@ -32,6 +33,9 @@ public:
   void MilesChanged(wxCommandEvent & event);
   void MiKmChanged(wxCommandEvent & event);
   void TimeChanged(wxCommandEvent & event);
+  void onKeyDown(wxNavigationKeyEvent & event);
+
+  DECLARE_EVENT_TABLE()
 };
 
 #endif

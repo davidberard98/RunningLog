@@ -19,12 +19,13 @@ class DayOfWeek;
 class DailyPanel : public wxPanel
 {
 public:
-  DailyPanel(wxWindow *parent, rlIds *idm, MyFrame *rparent, const Dates tday);
+  DailyPanel(wxWindow *parent, rlIds *idm, MyFrame *rparent, int iid, const Dates tday);
 
+  int ID;
   rlIds *IdManage;
   MyFrame *m_parent;
   MilesPanel *mp;
-  int wnid, awnid;
+  int wnid, awnid, dowid, mpid;
   WorkoutNotes *wn;
   WorkoutNotes *awn;
   DayOfWeek *dow;
@@ -36,6 +37,7 @@ public:
   void ChangeTime(double t);
   void ChangeFeeling(int f);
 
+//  DECLARE_EVENT_TABLE()
 };
 
 #endif
