@@ -111,3 +111,32 @@ bool StoreRun::AddFeeling(int f, Dates td)
     storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, 0.0, true, f));
   return true;
   }
+
+std::vector<std::string> StoreRun::ListSeasons() const
+  {
+  std::vector<std::string> out;
+  ListSeasons(out);
+  return out;
+  }
+
+void StoreRun::ListSeasons(std::vector<std::string> &seas) const
+  {
+  seas.clear();
+  for(int i=0;i<storage.size();++i)
+    {
+    if(storage[i].season != "")
+      {
+      bool found=false;
+      for(int j=0;j<seas.size();++j)
+        {
+        if(storage[i].season == seas[j])
+          {
+          found=true;
+          break;
+          }
+        }
+      if(found ==false)
+        seas.push_back(storage[i].season);
+      }
+    }
+  }

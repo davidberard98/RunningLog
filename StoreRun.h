@@ -5,6 +5,7 @@
 #include "DayRun.h"
 #include <wx/string.h>
 #include <iostream>
+#include <string>
 #include "Dates.h"
 
 class StoreRun
@@ -24,12 +25,13 @@ public:
   bool AddMilesOrKm(bool, Dates);
   bool AddDistance(const double, Dates);
   bool AddFeeling(int, Dates);
+  std::vector<std::string> ListSeasons() const;
+  void ListSeasons(std::vector<std::string>&) const;
   
   int idOfDay(Dates);
 
   std::vector<DayRun> storage;
 
 };
-
 
 #endif

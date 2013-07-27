@@ -11,3 +11,11 @@ On Windows: (never tested this)
 
 Dev to note:
   int StoreId = wxID_ANY; will just result in StoreId = -1, except it will actually assign -1 to be the ID, not a random number, so you end up with a whole bunch of objects with ID = -1.
+
+To Do:
+  -Correct weekPanel to use Dates
+  -make weekPanel actually editable
+    |Open a different frame
+    |Store a list of seasons to make life easier
+    |
+    |

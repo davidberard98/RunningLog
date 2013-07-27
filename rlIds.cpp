@@ -36,6 +36,19 @@ int rlIds::get(int group, int ord)
   return current;
   }
 
+void rlIds::removeGroup(int group)
+  {
+  for(int i=0;i<ids.size();++i)
+    {
+    if(group == correspondingGroup[i])
+      {
+      ids[i] = -1;
+      correspondingGroup[i] = -1;
+      order[i] = -1;
+      }
+    }
+  }
+
 int rlIds::next(int group, int currentId)
   {
   int IdLocation =-1; //automatically set to -1

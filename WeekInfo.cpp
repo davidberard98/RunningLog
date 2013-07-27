@@ -1,9 +1,11 @@
 #include "WeekInfo.h"
 
-WeekInfo::WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar *season, int beginDay, int beginMonth, int beginYear)
+//Parent and realparent because the actual parent is a wxScrolledWindow, but most functions we want are from the 'realparent', a MyFrame
+WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, const wxChar *season, Dates beginDate)
     :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
-    ,IdManage(idm)
+    ,IdManage(idm), begin(beginDate), ID(iid), m_parent(realparent)
   {
+  wxWeekNoLabel = new wxStaticText(this, wxID_ANY, wxT("Week No. "), wxDefaultPosition);
   //sets the week number 
   if(weekNo > 0)
     wxWeekNo = new wxStaticText(this, wxID_ANY, wxString::Format(wxT("%d"), weekNo), wxDefaultPosition);
@@ -17,13 +19,15 @@ WeekInfo::WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar *seaso
   wxWeekNo->SetFont(BoldFont);
   
   // changes the date to text
-  std::string DateString =month(beginMonth) + " " + its(beginDay) + " " + its(beginYear);
+  ActualDateLabel = new wxStaticText(this, wxID_ANY, wxT("Week of "), wxDefaultPosition);
+  std::string DateString = begin.FullDate();
   wxString wxDateString(DateString.c_str(), wxConvUTF8);
-  wxStaticText *ActualDate = new wxStaticText(this, wxID_ANY, wxDateString, wxDefaultPosition);
+  ActualDate = new wxStaticText(this, wxID_ANY, wxDateString, wxDefaultPosition);
   ActualDate->SetFont(BoldFont); //sets it to bold
   
   //makes the season a bold static text
-  wxStaticText *SeasonFormatted = new wxStaticText(this, wxID_ANY, season, wxDefaultPosition);
+  SeasonFormattedLabel = new wxStaticText(this, wxID_ANY, wxT("Season "), wxDefaultPosition);
+  SeasonFormatted = new wxStaticText(this, wxID_ANY, season, wxDefaultPosition);
   SeasonFormatted->SetFont(BoldFont);
   
   //assigns ID to edit button
@@ -32,14 +36,14 @@ WeekInfo::WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar *seaso
   Connect(editID, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(WeekInfo::Edit));
   
   //sizer will position all of the above horizontally
-  wxBoxSizer *sizer = new wxBoxSizer(wxHORIZONTAL);
-  sizer->Add(new wxStaticText(this, wxID_ANY, wxT("Week No. "), wxDefaultPosition), 0, wxLEFT | wxTOP | wxBOTTOM, 9);
+  sizer = new wxBoxSizer(wxHORIZONTAL);
+  sizer->Add(wxWeekNoLabel, 0, wxLEFT | wxTOP | wxBOTTOM, 9);
   sizer->Add(wxWeekNo, 0, wxTOP | wxBOTTOM | wxRIGHT, 5);
   sizer->AddStretchSpacer(1); // stretch spacer on both sides centers
-  sizer->Add(new wxStaticText(this, wxID_ANY, wxT("Season "), wxDefaultPosition), 0, wxLEFT | wxTOP | wxBOTTOM, 9);
+  sizer->Add(SeasonFormattedLabel, 0, wxLEFT | wxTOP | wxBOTTOM, 9);
   sizer->Add(SeasonFormatted, 0, wxTOP | wxBOTTOM | wxRIGHT, 5);
   sizer->AddStretchSpacer(1);
-  sizer->Add(new wxStaticText(this, wxID_ANY, wxT("Week of "), wxDefaultPosition), 0, wxLEFT | wxTOP | wxBOTTOM, 9);
+  sizer->Add(ActualDateLabel, 0, wxLEFT | wxTOP | wxBOTTOM, 9);
   sizer->Add(ActualDate, 0, wxTOP | wxBOTTOM | wxRIGHT, 5);
   sizer->AddSpacer(20);
   sizer->Add(editButton, 0, wxTOP | wxBOTTOM | wxRIGHT, 5);
@@ -49,8 +53,12 @@ WeekInfo::WeekInfo(wxWindow *parent, rlIds *idm, int weekNo, const wxChar *seaso
 void WeekInfo::Edit(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "EDITING" << std::endl;
+  int seid = IdManage->get(ID);
+  SeasonsEdit *se = new SeasonsEdit(m_parent, IdManage, seid, wxT("Running Log: Manage Training Seasons"), 150, 150, 600, 200);
+  se->Show(true);
   }
 
+/*
 std::string WeekInfo::its(int tc)
   {
   std::string to;
@@ -103,3 +111,4 @@ std::string WeekInfo::month(int mtc)
     }
   return "";
   }
+*/

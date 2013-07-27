@@ -1,8 +1,8 @@
 #include "MyFrame.h"
 
-MyFrame::MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width, int height)
+MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int ypos, int width, int height)
     :wxFrame((wxFrame *) NULL, -1, title, wxPoint(xpos, ypos), wxSize(width, height), wxDEFAULT_FRAME_STYLE | wxWANTS_CHARS)
-    ,IdManage(idm)
+    ,IdManage(idm), r_parent(parent)
   {
   ID=IdManage->get();
   m_parent = new wxScrolledWindow(this, wxID_ANY); //all vectors will
@@ -11,13 +11,15 @@ MyFrame::MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width,
   Dates today;
   today = today.weekBegin();
   
+  //Assigning valid Ids. Ids don't need to be put in a group, but at some point they might be
+  int wiid = IdManage->get(ID);
   std::vector < int > dpid;
   for(int i=0;i<7;++i)
     {
     dpid.push_back(IdManage->get(ID));
     }
   //Panel at the top with date, season, week#
-  weekinfo = new WeekInfo(m_parent, IdManage, 5, wxT("Summer Training"), 1, 1, 2013);
+  weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, 5, wxT("Summer Training"), today);
 
   //Day of week, workout notes, miles, time, etc.  Inserting pointers to vector for storage & easier access
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[0], today));
@@ -74,4 +76,9 @@ void MyFrame::ChangeTime(double t, const Dates day)
 void MyFrame::ChangeFeeling(int f, const Dates day)
   {
   storage.AddFeeling(f, day);
+  }
+
+std::vector<std::string> MyFrame::ListSeasons() const
+  {
+  return storage.ListSeasons();
   }

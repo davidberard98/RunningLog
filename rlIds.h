@@ -25,7 +25,7 @@ public:
 //      group, order
   int next(int, int); //returns ID
 //      group, current Id
-//int removeGroup(int);
+  void removeGroup(int);
 
 private:
   int current;

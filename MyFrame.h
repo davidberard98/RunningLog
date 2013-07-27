@@ -5,6 +5,7 @@
 #include <wx/panel.h>
 #include <vector>
 #include <iostream>
+#include <string>
 
 /*#include "MilesPanel.h"
 #include "WorkoutNotes.h"
@@ -14,15 +15,20 @@
 #include "StoreRun.h"
 #include "Dates.h"
 #include "rlIds.h"
+#include "main.h"
 
+//included because of issues with recursive including & #ifndef #define
+class RLog; 
 class DailyPanel;
+class WeekInfo;
 
 class MyFrame : public wxFrame
 {
 public:
-  MyFrame(const wxChar *title, rlIds *idm, int xpos, int ypos, int width, int height);
+  MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int ypos, int width, int height);
   ~MyFrame();
   //wxPanel *m_parent;
+  RLog *r_parent;
   rlIds *IdManage;
   int ID;
   wxScrolledWindow *m_parent; // window allowing scrolling instead of just getting cut off
@@ -37,6 +43,8 @@ public:
   void ChangeType(bool t, const Dates day);
   void ChangeTime(double t, const Dates day);
   void ChangeFeeling(int f, const Dates day);
+
+  std::vector<std::string> ListSeasons() const;
 
 //  DECLARE_EVENT_TABLE()
 };

@@ -11,7 +11,7 @@ class DailyPanel;
 class DayOfWeek : public wxPanel
 {
 public:
-  DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* day);
+  DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* date);
  
   int ID;
   rlIds *IdManage;

@@ -104,6 +104,21 @@ void Dates::weekBegin(int weekbegind, int& d, int& m, int& y) const // returns d
   y=di.tm_year+1900; //year [1900-...]
   }
 
+int Dates::year() const
+  {
+  return (Ctime.tm_year+1900); //returns integer year (like 2013)
+  }
+
+int Dates::month() const
+  {
+  return Ctime.tm_mon;
+  }
+
+int Dates::day() const
+  {
+  return Ctime.tm_mday;
+  }
+
 std::string Dates::dow() const //day of week
   {
   char aname [10];
@@ -176,6 +191,27 @@ std::string Dates::intToMonth(int mtc)
     case 9: return "October"; break;
     case 10: return "November"; break;
     case 11: return "December"; break;
+    default: return "";break;
+    }
+  return "";
+  }
+
+std::string Dates::intToShortMonth(int mtc)
+  {
+  switch(mtc)
+    {
+    case 0: return "Jan"; break;
+    case 1: return "Feb"; break;
+    case 2: return "Mar"; break;
+    case 3: return "Apr"; break;
+    case 4: return "May"; break;
+    case 5: return "Jun"; break;
+    case 6: return "Jul"; break;
+    case 7: return "Aug"; break;
+    case 8: return "Sep"; break;
+    case 9: return "Oct"; break;
+    case 10: return "Nov"; break;
+    case 11: return "Dec"; break;
     default: return "";break;
     }
   return "";
