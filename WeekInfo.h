@@ -5,6 +5,7 @@
 #include <wx/panel.h>
 #include <string>
 
+#include "Dates.h"
 #include "rlIds.h"
 
 class WeekInfo : public wxPanel

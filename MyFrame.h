@@ -25,10 +25,10 @@ public:
   //wxPanel *m_parent;
   rlIds *IdManage;
   int ID;
-  wxScrolledWindow *m_parent;
-  std::vector< DailyPanel* > days;
-  WeekInfo *weekinfo;
-  StoreRun storage;
+  wxScrolledWindow *m_parent; // window allowing scrolling instead of just getting cut off
+  std::vector< DailyPanel* > days; 
+  WeekInfo *weekinfo; //header information like season, week #, date
+  StoreRun storage; //stores all information entered
 //  DailyPanel days[7];
 
   void ChangeComments(const wxChar* comm, const Dates day);

@@ -6,6 +6,11 @@
 #include <string>
 #include <iostream>
 
+/*********************
+ *Stores individual dates
+ *Stores as a struct tm, not a time_t
+ ********************/
+
 class Dates
 {
 public:
@@ -27,12 +32,12 @@ std::string dow() const;
 std::string FullDate() const;
 bool operator== (const Dates&) const;
 
-std::string its(int);
-std::string iits(int);
-std::string intToMonth(int);
-double stringToDouble(std::string);
-std::string doubleToString(double);
-int power(int, int);
+static std::string its(int);
+static std::string iits(int);
+static std::string intToMonth(int);
+static double stringToDouble(std::string);
+static std::string doubleToString(double);
+static int power(int, int);
 
 //time_t Ctime;
 struct tm Ctime;

@@ -18,12 +18,11 @@ public:
 
   int ID;
   rlIds *IdManage;
-  Dates d;
   DailyPanel *m_parent;
   wxTextCtrl *miles_text;
-  wxStaticText *mt_label;
-  int mtid, mkid;
-  int thid, tmid, tsid;
+  int miles_textID, miKmID;
+  int hoursID, minutesID, secondsID;
+  wxStaticText *mileage_label;
   wxStaticText *time_label;
   wxTextCtrl *hours;
   wxTextCtrl *minutes;

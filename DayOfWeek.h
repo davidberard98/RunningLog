@@ -24,4 +24,13 @@ public:
 
 };
 
+enum
+{
+FEELING_GREAT = 5,
+FEELING_GOOD = 4,
+FEELING_OKAY = 3,
+FEELING_BAD = 2,
+FEELING_AWFUL = 1
+};
+
 #endif

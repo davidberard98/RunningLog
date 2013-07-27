@@ -9,6 +9,10 @@
 #include "DailyPanel.h"
 #include "rlIds.h"
 
+/****************
+ *Contains a multi-line text box (wxTextCtrl) for workout notes or additional workout notes
+ ****************/
+
 class DailyPanel;
 
 class WorkoutNotes : public wxPanel
@@ -23,7 +27,6 @@ public:
   DailyPanel *m_parent;
 
   void onChange(wxCommandEvent & event);
-
 };
 
 

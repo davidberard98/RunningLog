@@ -19,7 +19,7 @@ class DayOfWeek;
 class DailyPanel : public wxPanel
 {
 public:
-  DailyPanel(wxWindow *parent, rlIds *idm, MyFrame *rparent, int iid, const Dates tday);
+  DailyPanel(wxWindow *parent, MyFrame *rparent, rlIds *idm, int iid, const Dates tday);
 
   int ID;
   rlIds *IdManage;

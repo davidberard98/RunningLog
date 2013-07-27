@@ -5,87 +5,79 @@ BEGIN_EVENT_TABLE(MilesPanel, wxPanel)
 END_EVENT_TABLE()
 
 MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm, int iid)
-  :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS |wxTAB_TRAVERSAL)
+    :wxPanel(parent, 	iid, wxDefaultPosition, wxDefaultSize, 		wxBORDER_NONE | wxWANTS_CHARS |wxTAB_TRAVERSAL)
+    //    parent window, id, position & size will be determined by sizers, no border, accept tab & enter, allow tabbing between objects
+    ,ID(iid), m_parent(parent), IdManage(idm)
   {
-  ID=iid; // wx ID of this
-  IdManage=idm; // instance of rlIds which assigns valid IDs to 
-  m_parent=parent; // pointer to parent, for calling methods of the parent object.
+  //assigning IDs with IdManage and setting tabbing order
+  miles_textID = IdManage->get(ID, 0);
+             // get an ID with group = int(ID) and it is #0 in the group
+  miKmID = IdManage->get(ID, 1); 
+  hoursID = IdManage->get(ID, 2); 
+  minutesID = IdManage->get(ID, 3); 
+  secondsID = IdManage->get(ID, 4); 
   
-  wxBoxSizer *vsize = new wxBoxSizer(wxVERTICAL); // vertical sizer holding RunTime and distance
-  
-/*  wxPanel *RunTime = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
-    //holds the hours, minutes, and seconds textCtrl objects for the time of the run
-  wxPanel *distance = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
-    //holds the distance for distance of run and km/miles combobox
-*/
-  mt_label = new wxStaticText(this, -1, wxT("Mileage:"), wxDefaultPosition);
-  time_label = new wxStaticText(this, -1, wxT("Time (h:m:s):"), wxDefaultPosition);
-  
-  const wxString dop[] = { wxT("mi") , wxT("km") };
-  
-  mtid=IdManage->get(ID, 0);
-  mkid=IdManage->get(ID, 1);
-//  miles_text = new wxTextCtrl(distance, mtid, wxT(""), wxDefaultPosition, wxSize(35,25));
-//  miKm = new wxComboBox(distance, mkid, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
-  miles_text = new wxTextCtrl(this, mtid, wxT(""), wxDefaultPosition, wxSize(35,25));
-  miKm = new wxComboBox(this, mkid, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, dop, wxCB_DROPDOWN);
-  Connect(mtid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MilesChanged));
-  Connect(mkid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MiKmChanged));
+  //Miles text box (distance)
+  mileage_label = new wxStaticText(this, -1, wxT("Mileage:"), wxDefaultPosition);
+  miles_text = new wxTextCtrl(this, miles_textID, wxT(""), wxDefaultPosition, wxSize(35,25));
+  Connect(miles_textID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MilesChanged)); //connects changes to storage
 
-  wxBoxSizer *dspace = new wxBoxSizer(wxHORIZONTAL);
-  dspace->Add(miles_text,0);
-  dspace->Add(miKm, 0);
+  //Miles/Km dropdown (Units of the distance)
+  const wxString UnitsOptions[] = { wxT("mi") , wxT("km") };
+  miKm = new wxComboBox(this, miKmID, wxT("mi"), wxDefaultPosition, wxSize(65, 25), 2, UnitsOptions, wxCB_DROPDOWN | wxCB_READONLY);
+  Connect(miKmID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::MiKmChanged)); //connects changes to storage
+
+  //spaces the text box (for distance) and the dropdown (for units)
+  wxBoxSizer *DistanceSizer = new wxBoxSizer(wxHORIZONTAL);
+  DistanceSizer->Add(miles_text,0);
+  DistanceSizer->Add(miKm, 0);
   
-//  distance->SetSizer(dspace);
+  //Time in hours:minutes:seconds 
+  time_label = new wxStaticText(this, -1, wxT("Time (h:m:s):"), wxDefaultPosition);
+  hours = new wxTextCtrl(this, hoursID, wxT(""), wxDefaultPosition, wxSize(20,25));
+  minutes = new wxTextCtrl(this, minutesID, wxT(""), wxDefaultPosition, wxSize(28,25));
+  seconds = new wxTextCtrl(this, secondsID, wxT(""), wxDefaultPosition, wxSize(28,25));
+  Connect(hoursID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
+  Connect(minutesID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
+  Connect(secondsID, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
   
-  thid = IdManage->get(ID, 2);
-  tmid = IdManage->get(ID, 3);
-  tsid = IdManage->get(ID, 4);
-/*  hours = new wxTextCtrl(RunTime, thid, wxT(""), wxDefaultPosition, wxSize(20,25));
-  minutes = new wxTextCtrl(RunTime, tmid, wxT(""), wxDefaultPosition, wxSize(28,25));
-  seconds = new wxTextCtrl(RunTime, tsid, wxT(""), wxDefaultPosition, wxSize(28,25));*/
-  hours = new wxTextCtrl(this, thid, wxT(""), wxDefaultPosition, wxSize(20,25));
-  minutes = new wxTextCtrl(this, tmid, wxT(""), wxDefaultPosition, wxSize(28,25));
-  seconds = new wxTextCtrl(this, tsid, wxT(""), wxDefaultPosition, wxSize(28,25));
-  Connect(thid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
-  Connect(tmid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
-  Connect(tsid, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MilesPanel::TimeChanged));
-  
+  //colons in between the distance 
   wxStaticText *colon = new wxStaticText(this, -1, wxT(":"),wxDefaultPosition);
   wxStaticText *colon2 = new wxStaticText(this, -1, wxT(":"),wxDefaultPosition);
-  
-  wxFont font = colon->GetFont();
+  wxFont font = colon->GetFont(); //setting the colons to be bold
   font.SetPointSize(15);
   font.SetWeight(wxFONTWEIGHT_BOLD);
   colon->SetFont(font);
   colon2->SetFont(font);
   
-  wxBoxSizer *hspace = new wxBoxSizer(wxHORIZONTAL);
-  hspace->Add(hours, 0);
-  hspace->Add(colon,0);
-  hspace->Add(minutes, 0);
-  hspace->Add(colon2,0);
-  hspace->Add(seconds, 0);
-  //RunTime->SetSizer(hspace);
-
-  mt_label->SetFocus();
+  //spaces the hours, minutes, seconds and the colons in between
+  wxBoxSizer *RunTimeSizer = new wxBoxSizer(wxHORIZONTAL);
+  RunTimeSizer->Add(hours, 0);
+  RunTimeSizer->Add(colon,0);
+  RunTimeSizer->Add(minutes, 0);
+  RunTimeSizer->Add(colon2,0);
+  RunTimeSizer->Add(seconds, 0);
   
-  vsize->Add(mt_label, 0);
-//vsize->Add(miles_text, 0);
-  vsize->Add(dspace, 0);
+  //spaces all of the above vertically
+  wxBoxSizer *vsize = new wxBoxSizer(wxVERTICAL);
+  vsize->Add(mileage_label, 0);
+  vsize->Add(DistanceSizer, 0);
   vsize->Add(time_label, 0);
-  vsize->Add(hspace, 0, wxEXPAND);
-  
+  vsize->Add(RunTimeSizer, 0, wxEXPAND);
   this->SetSizer(vsize);
   }
  
 void MilesPanel::MilesChanged(wxCommandEvent & WXUNUSED(event))
   {
   std::string v = std::string(miles_text->GetValue().mb_str());
-  m_parent->ChangeDistance(d.stringToDouble(v));
+    //get the # of miles, and change it from a wxString to a std::string
+  m_parent->ChangeDistance(Dates::stringToDouble(v));
+    //change # of miles from std::string to double and call the ChangeDistance from the parent object, which will continue sending the change until it reaches the storage
   }
+
 void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
   {
+  //send the unit as a bool to the parent so it eventually reaches the storage
   if(std::string(miKm->GetValue().mb_str()) == "km")
     m_parent->ChangeType(false);
   else
@@ -93,36 +85,36 @@ void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
   }
 void MilesPanel::TimeChanged(wxCommandEvent & WXUNUSED(event))
   {
-  std::cout << "MP:TC" << std::endl;
-  int h = int(d.stringToDouble(std::string(hours->GetValue().mb_str())));
-  int m = int(d.stringToDouble(std::string(minutes->GetValue().mb_str())));
-  double s = d.stringToDouble(std::string(seconds->GetValue().mb_str()));
-  if(s >= 60)
+  int h = int(Dates::stringToDouble(std::string(hours->GetValue().mb_str())));
+  int m = int(Dates::stringToDouble(std::string(minutes->GetValue().mb_str())));
+  double s = Dates::stringToDouble(std::string(seconds->GetValue().mb_str())); 
+    //those 3 change the wxString from the text boxes to ints or doubles
+  if(s >= 60) //if there are more than 60 seconds, it automatically subtracts 60 seconds and adds 1 minute
     {
     double ns = s-60;
     int nm = m+1;
-    seconds->SetValue(wxString(d.doubleToString(ns).c_str(), wxConvUTF8));
-    minutes->SetValue(wxString(d.doubleToString(nm).c_str(), wxConvUTF8));
+    seconds->SetValue(wxString(Dates::doubleToString(ns).c_str(), wxConvUTF8));
+    minutes->SetValue(wxString(Dates::doubleToString(nm).c_str(), wxConvUTF8));
     }
-  if(m >= 60)
+  if(m >= 60) //if there are more than 60 minutes, it automatically subtracts 60 minutes and adds 1 hour
     {
     double nm = m-60;
     int nh = h+1;
-    minutes->SetValue(wxString(d.doubleToString(nm).c_str(), wxConvUTF8));
-    hours->SetValue(wxString(d.doubleToString(nh).c_str(), wxConvUTF8));
+    minutes->SetValue(wxString(Dates::doubleToString(nm).c_str(), wxConvUTF8));
+    hours->SetValue(wxString(Dates::doubleToString(nh).c_str(), wxConvUTF8));
     }
   s+=m*60;
-  s+=h*60*60;
-  m_parent->ChangeTime(s);
+  s+=h*60*60; //converts everything to a number of seconds
+  m_parent->ChangeTime(s); //sends # of seconds to parent to eventually reach the storage
   }
 
-void MilesPanel::onKeyDown(wxNavigationKeyEvent &event)
+void MilesPanel::onKeyDown(wxNavigationKeyEvent &event) //tabbing between miles_text, miKm, hours, minutes, seconds
   {
   if(event.IsFromTab())
     {
-    int currentFocusId = FindFocus()->GetId();
-    int nextFocusId = IdManage->next(ID,currentFocusId);
-    if(nextFocusId != -1)
-      FindWindow(nextFocusId)->SetFocus();
+    int currentFocusId = FindFocus()->GetId(); //finds the id of the object currently focused on
+    int nextFocusId = IdManage->next(ID,currentFocusId); //finds what the id of the next object to focus on is
+    if(nextFocusId != -1) 
+      FindWindow(nextFocusId)->SetFocus(); 
     }
   }
