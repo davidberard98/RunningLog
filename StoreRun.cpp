@@ -198,3 +198,12 @@ int StoreRun::WeekNumber(Dates day) const
     out = storage[id].week;
   return out;
   }
+
+double StoreRun::GetDistance(Dates day) const
+  {
+  int id = idOfDay(day);
+  double out =-1.0;
+  if(id != -1)
+    out = storage[id].distance;
+  return out;
+  }

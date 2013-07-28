@@ -2,7 +2,7 @@
 
 //Parent and realparent because the actual parent is a wxScrolledWindow, but most functions we want are from the 'realparent', a MyFrame
 WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, std::string season, Dates beginDate)
-    :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
+    :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
     ,IdManage(idm), begin(beginDate), ID(iid), m_parent(realparent)
   {
   wxWeekNoLabel = new wxStaticText(this, wxID_ANY, wxT("Week No. "), wxDefaultPosition);

@@ -10,6 +10,7 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   //Initializing dates to determine what days are opened to when program opens
   Dates today;
   today = today.weekBegin();
+  current = today;
   
   //Assigning valid Ids. Ids don't need to be put in a group, but at some point they might be
   int wiid = IdManage->get(ID);
@@ -18,6 +19,7 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
     {
     dpid.push_back(IdManage->get(ID));
     }
+  int wbid = IdManage->get(ID);
   //Panel at the top with date, season, week#
   weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, storage.WeekNumber(today), storage.season(today), today);
 
@@ -29,6 +31,8 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[4], today.setNew(4)));
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[5], today.setNew(5)));
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[6], today.setNew(6)));
+
+  weekbottom = new WeekBottom(m_parent, this, IdManage, wbid, today);
   
   //spacing the weekinfo and DailyPanels horizontally
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
@@ -37,6 +41,7 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
     {
     sizer->Add(days[i], 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
     }
+  sizer->Add(weekbottom, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
   m_parent->SetSizer(sizer);
   
   // this part makes the scrollbars show up
@@ -61,6 +66,7 @@ void MyFrame::ChangeMoreComments(const wxChar* comm, const Dates day)
 void MyFrame::ChangeDistance(const double d, const Dates day)
   {
   storage.AddDistance(d, day);
+  UpdateWeeklyDistance();
   }
 
 void MyFrame::ChangeType(bool t, const Dates day)
@@ -86,4 +92,9 @@ std::vector<std::string> MyFrame::ListSeasons() const
 void MyFrame::UpdateWeekInfo()
   {
   weekinfo->update();
+  }
+
+void MyFrame::UpdateWeeklyDistance()
+  {
+  weekbottom->update();
   }

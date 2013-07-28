@@ -241,6 +241,8 @@ bool Dates::operator<= (const Dates& tc) const
 std::string Dates::its(int tc) //int to string
   {
   std::string to;
+  if(tc == 0)
+    to="0";
   while(tc != 0)
     {
     int dig = tc%10;

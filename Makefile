@@ -1,7 +1,7 @@
 all: RunningLog
 
-RunningLog: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o rlIds.o SeasonsEdit.o
-	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o DayRun.o StoreRun.o Dates.o rlIds.o SeasonsEdit.o `wx-config --libs` `wx-config --cxxflags` -o RunningLog
+RunningLog: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o SeasonsEdit.o WeekBottom.o DayRun.o StoreRun.o Dates.o rlIds.o
+	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o SeasonsEdit.o WeekBottom.o DayRun.o StoreRun.o Dates.o rlIds.o `wx-config --libs` `wx-config --cxxflags` -o RunningLog
 
 main.o: main.cpp
 	g++ -c main.cpp `wx-config --libs` `wx-config --cxxflags`
@@ -24,6 +24,12 @@ DailyPanel.o: DailyPanel.cpp
 WeekInfo.o: WeekInfo.cpp
 	g++ -c WeekInfo.cpp `wx-config --libs` `wx-config --cxxflags`
 
+SeasonsEdit.o: SeasonsEdit.cpp
+	g++ -c SeasonsEdit.cpp `wx-config --libs` `wx-config --cxxflags`
+
+WeekBottom.o: WeekBottom.cpp
+	g++ -c WeekBottom.cpp `wx-config --libs` `wx-config --cxxflags`
+
 DayRun.o: DayRun.cpp
 	g++ -c DayRun.cpp `wx-config --libs` `wx-config --cxxflags`
 
@@ -36,13 +42,8 @@ Dates.o: Dates.cpp
 rlIds.o: rlIds.cpp
 	g++ -c rlIds.cpp `wx-config --libs` `wx-config --cxxflags`
 
-SeasonsEdit.o: SeasonsEdit.cpp
-	g++ -c SeasonsEdit.cpp `wx-config --libs` `wx-config --cxxflags`
-
 wxComboBoxTest: wxComboBoxTest.cpp
 	g++ wxComboBoxTest.cpp -o wxComboBoxTest `wx-config --libs` `wx-config --cxxflags`
 
 clean:
 	rm -rf *.o
-
-#rules

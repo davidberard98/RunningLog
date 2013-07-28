@@ -16,11 +16,13 @@
 #include "Dates.h"
 #include "rlIds.h"
 #include "main.h"
+#include "WeekBottom.h"
 
 //included because of issues with recursive including & #ifndef #define
 class RLog; 
 class DailyPanel;
 class WeekInfo;
+class WeekBottom;
 
 class MyFrame : public wxFrame
 {
@@ -28,6 +30,7 @@ public:
   MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int ypos, int width, int height);
   ~MyFrame();
   //wxPanel *m_parent;
+  Dates current;
   RLog *r_parent;
   rlIds *IdManage;
   int ID;
@@ -35,6 +38,7 @@ public:
   std::vector< DailyPanel* > days; 
   WeekInfo *weekinfo; //header information like season, week #, date
   StoreRun storage; //stores all information entered
+  WeekBottom *weekbottom;
 //  DailyPanel days[7];
 
   void ChangeComments(const wxChar* comm, const Dates day);
@@ -44,6 +48,7 @@ public:
   void ChangeTime(double t, const Dates day);
   void ChangeFeeling(int f, const Dates day);
   void UpdateWeekInfo();
+  void UpdateWeeklyDistance();
 
   std::vector<std::string> ListSeasons() const;
 

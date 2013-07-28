@@ -33,6 +33,7 @@ public:
   void ListSeasons(std::vector<std::string>&) const;
   std::string season(Dates day) const;
   int WeekNumber(Dates day) const;
+  double GetDistance(Dates day) const;
   
   int idOfDay(Dates) const;
 
