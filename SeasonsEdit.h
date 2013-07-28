@@ -58,9 +58,23 @@ public:
   wxComboBox *EndsDay;
   wxComboBox *EndsYear;
   wxBoxSizer *EndsSizer;
-  wxBoxSizer *vsize;
+  wxBoxSizer *besize;
   int EndsMonthID, EndsDayID, EndsYearID;
+  wxBoxSizer *hsizer;
   wxBoxSizer *sizer;
+  wxBoxSizer *OkayCancelSizer;
+  int OkayID, CancelID;
+  wxStaticText *ErrorMessage;
+  wxBoxSizer *errorsizer;
+  wxBoxSizer *seasonsizer;
+  wxButton *OkayButton;
+  wxButton *CancelButton;
+
+  void OkayClicked(wxCommandEvent & event);
+  void CancelClicked(wxCommandEvent & event);
+
+  bool CheckDates(Dates&, Dates&);
+  bool CheckSeason(std::string&);
   
 
 };

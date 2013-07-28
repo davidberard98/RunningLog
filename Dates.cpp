@@ -40,6 +40,14 @@ void Dates::set() // sets time to current time
   Ctime = *localtime( &x );
   }
 
+void Dates::set(const Dates& in)
+  {
+  time_t x;
+  struct tm inCtime = in.Ctime;
+  x= mktime ( &inCtime );
+  Ctime = *localtime ( &x );
+  }
+
 void Dates::set(int off) // adds or subtracts off to the current date
   {
   int d, m, y;
@@ -98,10 +106,19 @@ void Dates::weekBegin(int weekbegind, int& d, int& m, int& y) const // returns d
   struct tm CtimeCopy = Ctime; //copy
   time_t x=mktime(&CtimeCopy); //change struct tm to a time_t
   x+=(weekbegind-Ctime.tm_wday)*24*60*60; //subtract the days since the week began (multiply by 24*60*60 since it is in seconds)
+  if(weekbegind > Ctime.tm_wday) //explained below
+     x-= 7*24*60*60;
   struct tm di = *localtime (&x); //change the time back into a struct tm
   d=di.tm_mday; //day of month [1-31]
   m=di.tm_mon; //month of year [0-11]
   y=di.tm_year+1900; //year [1900-...]
+
+  // sun  mon  tue  wed  thu  fri  sat  sun
+  // 0a   1a   2a   3a   4a   5a   6a   7a
+  // 0b   1b   2b   3b   4b   5b   6b   7b
+  // -> begins on wednesday (3)
+  // If we get 1b (monday week 2), it'll say (3-1) = 2, so add 2 =3b.  However, that week
+  // begins on 3a, not 3b, so when weekbegin > date, subtract a week.
   }
 
 int Dates::year() const
@@ -139,6 +156,84 @@ bool Dates::operator== (const Dates& tc) const
   int m=tc.Ctime.tm_mon;
   int y=tc.Ctime.tm_year;
   if(d == Ctime.tm_mday && m == Ctime.tm_mon && y == Ctime.tm_year)
+    return true;
+  return false;
+  }
+
+bool Dates::operator!= (const Dates& tc) const
+  {
+  int d=tc.Ctime.tm_mday;
+  int m=tc.Ctime.tm_mon;
+  int y=tc.Ctime.tm_year;
+  if(d == Ctime.tm_mday && m == Ctime.tm_mon && y == Ctime.tm_year)
+    return false;
+  return true;
+  }
+
+bool Dates::operator< (const Dates& tc) const
+  {
+  //set the same seconds/minutes for both [only checking day, month, year]
+  time_t now;
+  time ( &now );
+  struct tm thisCtime = *localtime ( &now );
+  thisCtime.tm_mday = Ctime.tm_mday; thisCtime.tm_mon = Ctime.tm_mon; thisCtime.tm_year = Ctime.tm_year;
+  struct tm thatCtime = *localtime ( &now );
+  thatCtime.tm_mday = tc.Ctime.tm_mday; thatCtime.tm_mon = tc.Ctime.tm_mon; thatCtime.tm_year = tc.Ctime.tm_year;
+  //change to time_t (integer)
+  time_t thistime = mktime ( &thisCtime );
+  time_t thattime = mktime ( &thatCtime );
+  if(thistime < thattime)
+    return true;
+  return false;
+  }
+
+bool Dates::operator> (const Dates& tc) const
+  {
+  //set the same seconds/minutes for both [only checking day, month, year]
+  time_t now;
+  time ( &now );
+  struct tm thisCtime = *localtime ( &now );
+  thisCtime.tm_mday = Ctime.tm_mday; thisCtime.tm_mon = Ctime.tm_mon; thisCtime.tm_year = Ctime.tm_year;
+  struct tm thatCtime = *localtime ( &now );
+  thatCtime.tm_mday = tc.Ctime.tm_mday; thatCtime.tm_mon = tc.Ctime.tm_mon; thatCtime.tm_year = tc.Ctime.tm_year;
+  //change to time_t (integer)
+  time_t thistime = mktime ( &thisCtime );
+  time_t thattime = mktime ( &thatCtime );
+  if(thistime > thattime)
+    return true;
+  return false;
+  }
+
+bool Dates::operator>= (const Dates& tc) const
+  {
+  //set the same seconds/minutes for both [only checking day, month, year]
+  time_t now;
+  time ( &now );
+  struct tm thisCtime = *localtime ( &now );
+  thisCtime.tm_mday = Ctime.tm_mday; thisCtime.tm_mon = Ctime.tm_mon; thisCtime.tm_year = Ctime.tm_year;
+  struct tm thatCtime = *localtime ( &now );
+  thatCtime.tm_mday = tc.Ctime.tm_mday; thatCtime.tm_mon = tc.Ctime.tm_mon; thatCtime.tm_year = tc.Ctime.tm_year;
+  //change to time_t (integer)
+  time_t thistime = mktime ( &thisCtime );
+  time_t thattime = mktime ( &thatCtime );
+  if(thistime >= thattime)
+    return true;
+  return false;
+  }
+
+bool Dates::operator<= (const Dates& tc) const
+  {
+  //set the same seconds/minutes for both [only checking day, month, year]
+  time_t now;
+  time ( &now );
+  struct tm thisCtime = *localtime ( &now );
+  thisCtime.tm_mday = Ctime.tm_mday; thisCtime.tm_mon = Ctime.tm_mon; thisCtime.tm_year = Ctime.tm_year;
+  struct tm thatCtime = *localtime ( &now );
+  thatCtime.tm_mday = tc.Ctime.tm_mday; thatCtime.tm_mon = tc.Ctime.tm_mon; thatCtime.tm_year = tc.Ctime.tm_year;
+  //change to time_t (integer)
+  time_t thistime = mktime ( &thisCtime );
+  time_t thattime = mktime ( &thatCtime );
+  if(thistime <= thattime)
     return true;
   return false;
   }
@@ -215,6 +310,35 @@ std::string Dates::intToShortMonth(int mtc)
     default: return "";break;
     }
   return "";
+  }
+
+int Dates::ShortMonthToInt(std::string in)
+  {
+  if(in == "Jan")
+    return 0;
+  if(in == "Feb")
+    return 1;
+  if(in == "Mar")
+    return 2;
+  if(in == "Apr")
+    return 3;
+  if(in == "May")
+    return 4;
+  if(in == "Jun")
+    return 5;
+  if(in == "Jul")
+    return 6;
+  if(in == "Aug")
+    return 7;
+  if(in == "Sep")
+    return 8;
+  if(in == "Oct")
+    return 9;
+  if(in == "Nov")
+    return 10;
+  if(in == "Dec")
+    return 11;
+  return -1;
   }
 
 double Dates::stringToDouble(std::string in)

@@ -43,6 +43,7 @@ public:
   void ChangeType(bool t, const Dates day);
   void ChangeTime(double t, const Dates day);
   void ChangeFeeling(int f, const Dates day);
+  void UpdateWeekInfo();
 
   std::vector<std::string> ListSeasons() const;
 

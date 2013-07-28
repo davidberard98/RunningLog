@@ -25,10 +25,16 @@ public:
   bool AddMilesOrKm(bool, Dates);
   bool AddDistance(const double, Dates);
   bool AddFeeling(int, Dates);
+  bool AddSeason(std::string, Dates);
+  bool AddSeason(std::string, int, Dates);
+  bool AddWeekNumber(int, Dates);
+  bool AddWeek(int, Dates);
   std::vector<std::string> ListSeasons() const;
   void ListSeasons(std::vector<std::string>&) const;
+  std::string season(Dates day) const;
+  int WeekNumber(Dates day) const;
   
-  int idOfDay(Dates);
+  int idOfDay(Dates) const;
 
   std::vector<DayRun> storage;
 

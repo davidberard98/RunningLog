@@ -1,7 +1,7 @@
 #include "WeekInfo.h"
 
 //Parent and realparent because the actual parent is a wxScrolledWindow, but most functions we want are from the 'realparent', a MyFrame
-WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, const wxChar *season, Dates beginDate)
+WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, std::string season, Dates beginDate)
     :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
     ,IdManage(idm), begin(beginDate), ID(iid), m_parent(realparent)
   {
@@ -10,7 +10,7 @@ WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, i
   if(weekNo > 0)
     wxWeekNo = new wxStaticText(this, wxID_ANY, wxString::Format(wxT("%d"), weekNo), wxDefaultPosition);
   else
-    wxWeekNo = new wxStaticText(this, wxID_ANY, wxT("Unspecified"), wxDefaultPosition);
+    wxWeekNo = new wxStaticText(this, wxID_ANY, wxT("None"), wxDefaultPosition);
   //make a bold BoldFont
   wxFont BoldFont = wxWeekNo->GetFont();
   BoldFont.SetPointSize(15);
@@ -27,7 +27,10 @@ WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, i
   
   //makes the season a bold static text
   SeasonFormattedLabel = new wxStaticText(this, wxID_ANY, wxT("Season "), wxDefaultPosition);
-  SeasonFormatted = new wxStaticText(this, wxID_ANY, season, wxDefaultPosition);
+  if(season != "")
+    SeasonFormatted = new wxStaticText(this, wxID_ANY, wxString(season.c_str(), wxConvUTF8), wxDefaultPosition);
+  else
+    SeasonFormatted = new wxStaticText(this, wxID_ANY, wxT("None"), wxDefaultPosition);
   SeasonFormatted->SetFont(BoldFont);
   
   //assigns ID to edit button
@@ -56,6 +59,26 @@ void WeekInfo::Edit(wxCommandEvent & WXUNUSED(event))
   int seid = IdManage->get(ID);
   SeasonsEdit *se = new SeasonsEdit(m_parent, IdManage, seid, wxT("Running Log: Manage Training Seasons"), 150, 150, 600, 200);
   se->Show(true);
+  }
+
+void WeekInfo::update()
+  {
+  int weekNo = m_parent->storage.WeekNumber(begin);
+  wxString wxStr;
+  if(weekNo > 0)
+    wxStr = wxString::Format(wxT("%d"), weekNo);
+  else
+    wxStr = wxString("None", wxConvUTF8);
+  wxWeekNo->SetLabel(wxStr);
+ 
+  std::string seas = m_parent->storage.season(begin);
+  if(seas != "")
+    wxStr = wxString(seas.c_str(), wxConvUTF8);
+  else
+    wxStr = wxT("None");
+  SeasonFormatted->SetLabel(wxStr);
+  
+  sizer->Layout();
   }
 
 /*

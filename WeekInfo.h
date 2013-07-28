@@ -15,7 +15,7 @@ class MyFrame;
 class WeekInfo : public wxPanel
 {
 public:
-  WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, const wxChar* season, Dates beginDate);
+  WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, int weekNo, std::string season, Dates beginDate);
 
   MyFrame *m_parent;
   int ID;
@@ -34,6 +34,7 @@ public:
   wxBoxSizer *sizer;
 
   void Edit(wxCommandEvent & event);
+  void update();
 
 /*
   std::string month(int mtc);

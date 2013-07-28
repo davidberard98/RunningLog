@@ -3,7 +3,7 @@
 StoreRun::StoreRun()
   {}
 
-int StoreRun::idOfDay(Dates td) //days are stored in vector, so it finds the position of that day in the vector
+int StoreRun::idOfDay(Dates td) const //days are stored in vector, so it finds the position of that day in the vector
   {
   for(int i=0;i<storage.size();++i)
     {
@@ -112,6 +112,44 @@ bool StoreRun::AddFeeling(int f, Dates td)
   return true;
   }
 
+bool StoreRun::AddSeason(std::string seas, Dates td)
+  {
+  int i=idOfDay(td); 
+  if(i != -1)
+    storage[i].season=seas;
+  else
+    storage.push_back(DayRun(td, -1, seas));
+  return true;
+  }
+
+bool StoreRun::AddSeason(std::string seas, int wn, Dates td)
+  {
+  int i=idOfDay(td); 
+  if(i != -1)
+    {
+    storage[i].season=seas;
+    storage[i].week=wn;
+    }
+  else
+    storage.push_back(DayRun(td, wn, seas));
+  return true;
+  }
+
+bool StoreRun::AddWeekNumber(int wn, Dates td)
+  {
+  int i=idOfDay(td); 
+  if(i != -1)
+    storage[i].week=wn;
+  else
+    storage.push_back(DayRun(td, wn, ""));
+  return true;
+  }
+
+bool StoreRun::AddWeek(int wn, Dates td)
+  {
+  return AddWeekNumber(wn, td);
+  }
+
 std::vector<std::string> StoreRun::ListSeasons() const
   {
   std::vector<std::string> out;
@@ -122,12 +160,12 @@ std::vector<std::string> StoreRun::ListSeasons() const
 void StoreRun::ListSeasons(std::vector<std::string> &seas) const
   {
   seas.clear();
-  for(int i=0;i<storage.size();++i)
+  for(int i=0;i<storage.size();++i) // look through every day stored
     {
-    if(storage[i].season != "")
+    if(storage[i].season != "") //don't look at days with a null season
       {
       bool found=false;
-      for(int j=0;j<seas.size();++j)
+      for(int j=0;j<seas.size();++j) //compare to all the seasons that have already been seen
         {
         if(storage[i].season == seas[j])
           {
@@ -139,4 +177,24 @@ void StoreRun::ListSeasons(std::vector<std::string> &seas) const
         seas.push_back(storage[i].season);
       }
     }
+  }
+
+std::string StoreRun::season(Dates day) const
+  {
+  int id = idOfDay(day);
+  std::string out;
+  if(id != -1)
+    out = storage[id].season;
+  else
+    out = "";
+  return out;
+  }
+
+int StoreRun::WeekNumber(Dates day) const
+  {
+  int id = idOfDay(day);
+  int out =-1;
+  if(id != -1)
+    out = storage[id].week;
+  return out;
   }

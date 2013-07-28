@@ -19,7 +19,7 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
     dpid.push_back(IdManage->get(ID));
     }
   //Panel at the top with date, season, week#
-  weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, 5, wxT("Summer Training"), today);
+  weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, storage.WeekNumber(today), storage.season(today), today);
 
   //Day of week, workout notes, miles, time, etc.  Inserting pointers to vector for storage & easier access
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[0], today));
@@ -81,4 +81,9 @@ void MyFrame::ChangeFeeling(int f, const Dates day)
 std::vector<std::string> MyFrame::ListSeasons() const
   {
   return storage.ListSeasons();
+  }
+
+void MyFrame::UpdateWeekInfo()
+  {
+  weekinfo->update();
   }
