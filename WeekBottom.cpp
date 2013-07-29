@@ -96,6 +96,7 @@ void WeekBottom::update()
       totaldistance += distance;
     count.set(1); //like ++count;
     }
+  std::cout << totaldistance << " vs " << Dates::doubleToString(totaldistance).c_str() << std::endl;
   TotalMileage->SetLabel(wxString(Dates::doubleToString(totaldistance).c_str(), wxConvUTF8));
   sizer->Layout();
   }

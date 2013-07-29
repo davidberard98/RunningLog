@@ -92,12 +92,15 @@ bool StoreRun::AddMilesOrKm(bool t, Dates td)
 
 bool StoreRun::AddDistance(const double d, Dates td)
   {
-  std::cout << "SR:AD " << d << std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].distance=d;
   else
+    {
+    i=storage.size();
     storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, d, true, 5));
+    }
+  std::cout << "SR:AD " << d << " " << storage[i].distance << std::endl;
   return true;
   }
 

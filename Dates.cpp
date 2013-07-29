@@ -375,14 +375,15 @@ double Dates::stringToDouble(std::string in)
 std::string Dates::doubleToString(double in)
   {
   std::string out = its(int(in));
+  std::cout << out;
   double afta = in-int(in);
   int aftb = 0;
-  while(afta != 0.0)
+  while(int(afta*100000) != 0)//floating point isn't exact, so double(6) - int(6) = 0.000000000355, so you want that to equal 0 
     {
     afta *=10;
     aftb *=10;
-    aftb +=int(afta);
-    afta -= int(afta);
+    aftb +=int(afta+0.000001); //sometimes afta = 6 is actually afta = 5.99999999932, so add 0.000001 to offset that
+    afta -= int(afta+0.000001); 
     }
   if(aftb!=0)
     {
