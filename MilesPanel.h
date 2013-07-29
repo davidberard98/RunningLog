@@ -33,6 +33,7 @@ public:
   void MiKmChanged(wxCommandEvent & event);
   void TimeChanged(wxCommandEvent & event);
   void onKeyDown(wxNavigationKeyEvent & event);
+  void SetFocusFromKbd();
 
   DECLARE_EVENT_TABLE()
 };

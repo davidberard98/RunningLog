@@ -49,6 +49,7 @@ public:
   void ChangeFeeling(int f, const Dates day);
   void UpdateWeekInfo();
   void UpdateWeeklyDistance();
+  void SwitchTabPanel(int currentID);
 
   std::vector<std::string> ListSeasons() const;
 

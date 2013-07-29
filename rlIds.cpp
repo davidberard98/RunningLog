@@ -14,14 +14,14 @@ int rlIds::get()
 int rlIds::get(int group)
   { // see get(int group, int ord)
   ++current;
-  ids.push_back(current); 
-  correspondingGroup.push_back(group);
   int groupsize =0;
   for(int i=0;i<correspondingGroup.size();++i) //finds the next available order number.
     {
     if(correspondingGroup[i] == group)
       ++groupsize;
     }
+  ids.push_back(current); 
+  correspondingGroup.push_back(group);
   order.push_back(groupsize);
   return current;
   }
@@ -83,4 +83,35 @@ int rlIds::next(int group, int currentId)
       return ids[i];
     }
   return -1;
+  }
+
+int rlIds::OrderOfId(int group, int id) const
+  {
+  for(int i=0;i<ids.size();++i)
+    {
+    if(correspondingGroup[i] == group && ids[i] == id)
+      return order[i];
+    }
+  return -1;
+  }
+
+int rlIds::IdOfOrder(int group, int ord) const
+  {
+  for(int i=0;i<ids.size();++i)
+    {
+    if(correspondingGroup[i] == group && order[i] == ord)
+      return ids[i];
+    }
+  return -1;
+  }
+
+int rlIds::size(int group) const
+  {
+  int s = 0;
+  for(int i=0;i<correspondingGroup.size();++i)
+    {
+    if(correspondingGroup[i] == group)
+      ++s;
+    }
+  return s;
   }

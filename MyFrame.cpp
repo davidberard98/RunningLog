@@ -13,13 +13,17 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   current = today;
   
   //Assigning valid Ids. Ids don't need to be put in a group, but at some point they might be
-  int wiid = IdManage->get(ID);
+  int wiid = IdManage->get(); //isn't part of tab sequence so it doesn't need to be part of group(ID)
   std::vector < int > dpid;
   for(int i=0;i<7;++i)
     {
     dpid.push_back(IdManage->get(ID));
+    std::cout << "  " <<dpid[i] << "  " << IdManage->IdOfOrder(ID, i) << std::endl;
     }
   int wbid = IdManage->get(ID);
+  std::cout << "  " <<wbid << "  " << IdManage->IdOfOrder(ID, 7) <<  std::endl;
+  std::cout << IdManage->size(ID) << std::endl;
+
   //Panel at the top with date, season, week#
   weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, storage.WeekNumber(today), storage.season(today), today);
 
@@ -97,4 +101,11 @@ void MyFrame::UpdateWeekInfo()
 void MyFrame::UpdateWeeklyDistance()
   {
   weekbottom->update();
+  }
+
+void MyFrame::SwitchTabPanel(int currentID)
+  {
+  int nextID = IdManage->next(ID, currentID);
+  if(nextID != -1)
+    FindWindow(nextID)->SetFocusFromKbd();
   }

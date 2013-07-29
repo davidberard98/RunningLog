@@ -26,6 +26,11 @@ public:
   int next(int, int); //returns ID
 //      group, current Id
   void removeGroup(int);
+  int OrderOfId(int, int) const; //returns order
+//             group id
+  int IdOfOrder(int, int) const; //returns ID
+//             group order
+  int size(int) const; //group size
 
 private:
   int current;

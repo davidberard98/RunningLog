@@ -1,7 +1,11 @@
 #include "WeekBottom.h"
 
+BEGIN_EVENT_TABLE(WeekBottom, wxPanel)
+  EVT_NAVIGATION_KEY( WeekBottom::onTabDown )
+END_EVENT_TABLE()
+
 WeekBottom::WeekBottom(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, Dates day)
-    :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
+    :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS | wxTAB_TRAVERSAL)
     , ID(iid), IdManage(idm), begin(day), m_parent(realparent)
   {
   //set IDs
@@ -11,7 +15,6 @@ WeekBottom::WeekBottom(wxWindow *parent, MyFrame *realparent, rlIds *idm, int ii
   SkipToYearID = IdManage->get(ID);
   SkipToGoID = IdManage->get(ID);
   
-  //
   LastWeekButton = new wxButton(this, LastWeekID, wxT("< Last Week"), wxDefaultPosition);
   Connect(LastWeekID, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(WeekBottom::clickLastWeek));
 
@@ -83,6 +86,26 @@ void WeekBottom::clickNextWeek(wxCommandEvent & WXUNUSED(event))
 void WeekBottom::clickSkipTo(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "Skip To" << std::endl;
+  }
+
+void WeekBottom::onTabDown(wxNavigationKeyEvent & event)
+  {
+  std::cout << "TAB" << std::endl;
+  if(event.IsFromTab())
+    {
+    int currentfocus = FindFocus()->GetId();
+    int nextfocus = IdManage->next(ID, currentfocus);
+    std::cout << currentfocus << " " << nextfocus << std::endl;
+    if(nextfocus == IdManage->IdOfOrder(ID, 0)) // if next is the first element, go to the next panel
+      m_parent->SwitchTabPanel(ID);
+    else if(nextfocus != 1)
+      FindWindow(nextfocus)->SetFocus();
+    }
+  }
+
+void WeekBottom::SetFocusFromKbd()
+  {
+  FindWindow(IdManage->IdOfOrder(ID, 0))->SetFocus();
   }
 
 void WeekBottom::update()

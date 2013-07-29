@@ -54,3 +54,13 @@ void DailyPanel::ChangeFeeling(int f)
   {
   m_parent->ChangeFeeling(f, today);
   }
+
+void DailyPanel::SwitchTabPanel()
+  {
+  m_parent->SwitchTabPanel(ID); // to let it know which panel is currently focused on
+  }
+
+void DailyPanel::SetFocusFromKbd()
+  {
+  mp->SetFocusFromKbd();
+  }

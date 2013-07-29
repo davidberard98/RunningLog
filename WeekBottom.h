@@ -33,8 +33,11 @@ public:
   void clickLastWeek(wxCommandEvent & event);
   void clickNextWeek(wxCommandEvent & event);
   void clickSkipTo(wxCommandEvent & event);
+  void onTabDown(wxNavigationKeyEvent & event);
   void update();
+  void SetFocusFromKbd();
 
+  DECLARE_EVENT_TABLE()
 
 };
 

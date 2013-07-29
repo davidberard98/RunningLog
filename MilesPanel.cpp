@@ -114,7 +114,16 @@ void MilesPanel::onKeyDown(wxNavigationKeyEvent &event) //tabbing between miles_
     {
     int currentFocusId = FindFocus()->GetId(); //finds the id of the object currently focused on
     int nextFocusId = IdManage->next(ID,currentFocusId); //finds what the id of the next object to focus on is
-    if(nextFocusId != -1) 
+    if(nextFocusId == IdManage->IdOfOrder(ID, 0)) //if the next suggested is the beginning of the sequence)
+      m_parent->SwitchTabPanel();
+    else if(nextFocusId != -1) 
       FindWindow(nextFocusId)->SetFocus(); 
     }
+  }
+
+void MilesPanel::SetFocusFromKbd()
+  {
+  int firstitem = IdManage->IdOfOrder(ID, 0);
+  if(firstitem != -1)
+    FindWindow(firstitem)->SetFocus();
   }

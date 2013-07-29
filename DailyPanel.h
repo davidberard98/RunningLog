@@ -36,6 +36,8 @@ public:
   void ChangeType(bool t);
   void ChangeTime(double t);
   void ChangeFeeling(int f);
+  void SwitchTabPanel();
+  void SetFocusFromKbd();
 
 //  DECLARE_EVENT_TABLE()
 };
