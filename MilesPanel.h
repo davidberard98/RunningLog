@@ -28,12 +28,16 @@ public:
   wxTextCtrl *minutes;
   wxTextCtrl *seconds;
   wxComboBox *miKm;
+  bool MileageSetBySetValue;
 
   void MilesChanged(wxCommandEvent & event);
   void MiKmChanged(wxCommandEvent & event);
   void TimeChanged(wxCommandEvent & event);
   void onKeyDown(wxNavigationKeyEvent & event);
   void SetFocusFromKbd();
+  void SetDistance(double dist);
+  void SetType(bool type);
+  void SetTime(double time);
 
   DECLARE_EVENT_TABLE()
 };

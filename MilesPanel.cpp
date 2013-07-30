@@ -7,7 +7,7 @@ END_EVENT_TABLE()
 MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm, int iid)
     :wxPanel(parent, 	iid, wxDefaultPosition, wxDefaultSize, 		wxBORDER_NONE | wxWANTS_CHARS |wxTAB_TRAVERSAL)
     //    parent window, id, position & size will be determined by sizers, no border, accept tab & enter, allow tabbing between objects
-    ,ID(iid), m_parent(parent), IdManage(idm)
+    ,ID(iid), m_parent(parent), IdManage(idm), MileageSetBySetValue(false)
   {
   //assigning IDs with IdManage and setting tabbing order
   miles_textID = IdManage->get(ID, 0);
@@ -16,6 +16,7 @@ MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm, int iid)
   hoursID = IdManage->get(ID, 2); 
   minutesID = IdManage->get(ID, 3); 
   secondsID = IdManage->get(ID, 4); 
+  std::cout << "  miles_textID:  " << miles_textID << std::endl;
   
   //Miles text box (distance)
   mileage_label = new wxStaticText(this, -1, wxT("Mileage:"), wxDefaultPosition);
@@ -69,10 +70,17 @@ MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm, int iid)
  
 void MilesPanel::MilesChanged(wxCommandEvent & WXUNUSED(event))
   {
-  std::string v = std::string(miles_text->GetValue().mb_str());
-    //get the # of miles, and change it from a wxString to a std::string
-  m_parent->ChangeDistance(Dates::stringToDouble(v));
-    //change # of miles from std::string to double and call the ChangeDistance from the parent object, which will continue sending the change until it reaches the storage
+    //this is because if update() is called, it changes the text of miles_text and calls this function
+    //which eventually causes MyFrame to call UpdateWeeklyMileage()
+    //which in turn somehow calls MilesPanel::update(), starting a loop 
+  if(MileageSetBySetValue == false)
+    {
+    std::string v = std::string(miles_text->GetValue().mb_str());
+      //get the # of miles, and change it from a wxString to a std::string
+    m_parent->ChangeDistance(Dates::stringToDouble(v));
+      //change # of miles from std::string to double and call the ChangeDistance from the parent object, which will continue sending the change until it reaches the storage
+    }
+  MileageSetBySetValue=false;
   }
 
 void MilesPanel::MiKmChanged(wxCommandEvent & WXUNUSED(event))
@@ -126,4 +134,63 @@ void MilesPanel::SetFocusFromKbd()
   int firstitem = IdManage->IdOfOrder(ID, 0);
   if(firstitem != -1)
     FindWindow(firstitem)->SetFocus();
+  }
+
+void MilesPanel::SetDistance(double dist)
+  {
+  MileageSetBySetValue = true; // read above at MilesPanel::MilesChanged
+  if(dist != -1.0 && dist != 0.0)
+    miles_text->SetValue(wxString(Dates::doubleToString(dist).c_str(), wxConvUTF8));
+  else if(dist == -1.0 || dist == 0.0)
+    miles_text->SetValue(wxT(""));
+  }
+
+void MilesPanel::SetType(bool type)
+  {
+  if(type == true)
+    miKm->SetValue(wxT("mi"));
+  else if(type == false)
+    miKm->SetValue(wxT("km"));
+  }
+
+void MilesPanel::SetTime(double time)
+  {
+  if(time != -1.0)
+    {
+    //ex: time = 3761 (1:02:41)
+    int h = int(time/3600); // int(3761/3600) = int(1.1) = 1
+    int m = int((time-h*3600)/60); // int(161/60) = int(2.68) = 2
+    double s = time - (h*3600 + m*60); //3761 - (3600 + 120)
+    std::cout << time << " vs " << h << ":" << m << ":" << s << std::endl;
+  
+    //convert to std::strings and convert something like 1:4:6 to 1:04:06
+    std::string hstring = "";
+    std::string mstring = "";
+    std::string sstring = "";
+    if(h != 0)
+      hstring = Dates::its(h);
+    if(h != 0 || m != 0)
+      {
+      mstring = Dates::its(m);
+      if(m < 10)
+        mstring = "0"+mstring;
+      }
+    if(h != 0 || m != 0 || s != 0)
+      {
+      sstring = Dates::doubleToString(s);
+      if(s < 10.0)
+        sstring = "0"+sstring;
+      }
+  
+    //change the wxTextCtrls
+    hours->SetValue(wxString(hstring.c_str(), wxConvUTF8));
+    minutes->SetValue(wxString(mstring.c_str(), wxConvUTF8));
+    seconds->SetValue(wxString(sstring.c_str(), wxConvUTF8));
+    }
+  else if(time == -1.0)
+    {
+    hours->SetValue(wxT(""));
+    minutes->SetValue(wxT(""));
+    seconds->SetValue(wxT(""));
+    }
   }

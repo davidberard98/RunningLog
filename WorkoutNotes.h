@@ -27,6 +27,8 @@ public:
   DailyPanel *m_parent;
 
   void onChange(wxCommandEvent & event);
+  void SetValue(const std::string);
+  void SetValue(const wxChar*);
 };
 
 

@@ -1,16 +1,20 @@
 #include "DayOfWeek.h"
 #include <string>
 
-DayOfWeek::DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* day)
+DayOfWeek::DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, Dates day)
     :wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(100,80), wxBORDER_NONE | wxWANTS_CHARS)
-    ,ID(iid), IdManage(idm), m_parent(parent)
+    ,ID(iid), IdManage(idm), m_parent(parent), today(day)
   {
   //labels date
-  wxStaticText *st = new wxStaticText(this, -1, day);
-  wxFont BoldFont = st->GetFont();
+  dowText = new wxStaticText(this, -1, wxString(today.dow().c_str(), wxConvUTF8), wxDefaultPosition);
+  wxFont BoldFont = dowText->GetFont();
   BoldFont.SetPointSize(10);
   BoldFont.SetWeight(wxFONTWEIGHT_BOLD);
-  st->SetFont(BoldFont); //sets the date to bold
+  dowText->SetFont(BoldFont); //sets the date to bold
+
+  //displays the short date, like '7/28'
+  ShortDateText = new wxStaticText(this, -1, wxString(today.ShortDate().c_str(), wxConvUTF8), wxDefaultPosition);
+  ShortDateText->SetFont(BoldFont); //makes it bold
   
   //makes dropdown box for how you felt on the run
   cbid = IdManage->get(ID, 0); //gets valid ID
@@ -21,11 +25,12 @@ DayOfWeek::DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* day)
   
   //sizer 
   wxBoxSizer *setwidth = new wxBoxSizer(wxVERTICAL);
-  if(std::string(st->GetLabel().mb_str()).length() < 8)
-    setwidth->Add(st, 1, wxTOP | wxLEFT | wxBOTTOM, 10);
+  if(std::string(dowText->GetLabel().mb_str()).length() < 8)
+    setwidth->Add(dowText, 1, wxTOP | wxLEFT , 10);
   else
-    setwidth->Add(st, 1, wxTOP | wxBOTTOM, 10);
-  setwidth->Add(cb_feeling, 0 );
+    setwidth->Add(dowText, 1, wxTOP , 10);
+  setwidth->Add(ShortDateText, 0, wxLEFT, 20);
+  setwidth->Add(cb_feeling, 0);
   this->SetSizer(setwidth);
   }
 
@@ -43,4 +48,22 @@ void DayOfWeek::feeling(wxCommandEvent & WXUNUSED(event))
   else if(cbf == "Awful")
     fval=1;
   m_parent->ChangeFeeling(fval); // passes feeling value to parent to store
+  }
+
+void DayOfWeek::SetFeeling(int tc)
+  {
+  switch(tc)
+    {
+    case 1: cb_feeling->SetValue(wxT("Awful")); break;
+    case 2: cb_feeling->SetValue(wxT("Bad")); break;
+    case 3: cb_feeling->SetValue(wxT("Okay")); break;
+    case 4: cb_feeling->SetValue(wxT("Good")); break;
+    case 5: cb_feeling->SetValue(wxT("Great")); break;
+    }
+  }
+
+void DayOfWeek::SetDate(Dates day)
+  {
+  today = day;
+  ShortDateText->SetLabel(wxString(today.ShortDate().c_str(), wxConvUTF8));
   }

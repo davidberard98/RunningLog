@@ -30,7 +30,7 @@ bool StoreRun::AddComments(Dates td, std::string d)
 
 bool StoreRun::AddComments(std::string com, Dates td)
   {
-  std::cout << "SR::AC" << std::endl;
+//  std::cout << "SR::AC" << std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].comments = com;
@@ -56,7 +56,7 @@ bool StoreRun::AddMoreComments(Dates td, std::string d)
 
 bool StoreRun::AddMoreComments(std::string com, Dates td)
   {
-  std::cout << "SR::AMC" << std::endl;
+//  std::cout << "SR::AMC" << std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].moreComments = com;
@@ -67,7 +67,7 @@ bool StoreRun::AddMoreComments(std::string com, Dates td)
 
 bool StoreRun::AddTime(double t, Dates td)
   {
-  std::cout << "SR::ATime " << t << " " << int(t/3600) << ":" << int((t-int(t/3600)*3600)/60) << ":" << t-int((t-int(t/3600)*3600)/60)*60-int(t/3600)*3600 <<std::endl;
+//  std::cout << "SR::ATime " << t << " " << int(t/3600) << ":" << int((t-int(t/3600)*3600)/60) << ":" << t-int((t-int(t/3600)*3600)/60)*60-int(t/3600)*3600 <<std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].time = t;
@@ -78,7 +78,7 @@ bool StoreRun::AddTime(double t, Dates td)
 
 bool StoreRun::AddType(bool t, Dates td)
   {
-  std::cout << "SR::AType" << t << std::endl;
+//  std::cout << "SR::AType" << t << std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].milesOrKm = t;
@@ -90,23 +90,26 @@ bool StoreRun::AddType(bool t, Dates td)
 bool StoreRun::AddMilesOrKm(bool t, Dates td)
   { return AddType(t, td); }
 
-bool StoreRun::AddDistance(const double d, Dates td)
+bool StoreRun::AddDistance(double d, Dates td)
   {
-  int i=idOfDay(td); 
-  if(i != -1)
-    storage[i].distance=d;
-  else
+  if(d != -1.0)
     {
-    i=storage.size();
-    storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, d, true, 5));
+    int i=idOfDay(td); 
+    if(i != -1)
+      storage[i].distance=d;
+    else
+      {
+      i=storage.size();
+      storage.push_back(DayRun(td, std::string(""), std::string(""), 0.0, d, true, 5));
+      }
+//    std::cout << "SR:AD " << d << " " << storage[i].distance << std::endl;
     }
-  std::cout << "SR:AD " << d << " " << storage[i].distance << std::endl;
   return true;
   }
 
 bool StoreRun::AddFeeling(int f, Dates td)
   {
-  std::cout << "SR:AF" << f << std::endl;
+//  std::cout << "SR:AF" << f << std::endl;
   int i=idOfDay(td); 
   if(i != -1)
     storage[i].feeling=f;
@@ -193,6 +196,16 @@ std::string StoreRun::season(Dates day) const
   return out;
   }
 
+std::string StoreRun::GetSeason(Dates day) const
+  {
+  return season(day);
+  }
+
+int StoreRun::GetWeekNumber(Dates day) const
+  {
+  return WeekNumber(day);
+  }
+
 int StoreRun::WeekNumber(Dates day) const
   {
   int id = idOfDay(day);
@@ -208,5 +221,50 @@ double StoreRun::GetDistance(Dates day) const
   double out =-1.0;
   if(id != -1)
     out = storage[id].distance;
+  return out;
+  }
+
+std::string StoreRun::GetComments(Dates day) const
+  {
+  int id = idOfDay(day);
+  std::string out ="";
+  if(id != -1)
+    out = storage[id].comments;
+  return out;
+  }
+
+std::string StoreRun::GetMoreComments(Dates day) const
+  {
+  int id = idOfDay(day);
+  std::string out ="";
+  if(id != -1)
+    out = storage[id].moreComments;
+  return out;
+  }
+
+double StoreRun::GetTime(Dates day) const
+  {
+  int id = idOfDay(day);
+  double out =0;
+  if(id != -1)
+    out = storage[id].time;
+  return out;
+  }
+
+int StoreRun::GetFeeling(Dates day) const
+  {
+  int id = idOfDay(day);
+  int out =0;
+  if(id != -1)
+    out = storage[id].feeling;
+  return out;
+  }
+
+bool StoreRun::GetType(Dates day) const
+  {
+  int id = idOfDay(day);
+  bool out =true;
+  if(id != -1)
+    out = storage[id].milesOrKm;
   return out;
   }

@@ -5,22 +5,28 @@
 #include <wx/panel.h>
 
 #include "DailyPanel.h"
+#include "Dates.h"
 
 class DailyPanel;
 
 class DayOfWeek : public wxPanel
 {
 public:
-  DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, const wxChar* date);
+  DayOfWeek(DailyPanel *parent, rlIds *idm, int iid, Dates day);
  
   int ID;
   rlIds *IdManage;
   DailyPanel *m_parent;
+  wxStaticText *dowText;
+  wxStaticText *ShortDateText;
   wxComboBox *cb_feeling;
+  Dates today;
   int cbid;
   int fval;
 
   void feeling(wxCommandEvent & event);
+  void SetFeeling(int);
+  void SetDate(Dates day);
 
 };
 

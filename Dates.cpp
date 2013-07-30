@@ -150,6 +150,19 @@ std::string Dates::FullDate() const //returns date in word form
   return std::string(o);
   }
 
+std::string Dates::DateWithoutDow() const //returns date in word form
+  {
+  char o [80];
+  strftime(o, 80, "%B %e %G", &Ctime);
+  return std::string(o);
+  }
+
+std::string Dates::ShortDate() const
+  {
+  std::string o = its(Ctime.tm_mon+1) + "/" + its(Ctime.tm_mday);
+  return std::string(o);
+  }
+
 bool Dates::operator== (const Dates& tc) const
   {
   int d=tc.Ctime.tm_mday;
@@ -375,7 +388,6 @@ double Dates::stringToDouble(std::string in)
 std::string Dates::doubleToString(double in)
   {
   std::string out = its(int(in));
-  std::cout << out;
   double afta = in-int(in);
   int aftb = 0;
   while(int(afta*100000) != 0)//floating point isn't exact, so double(6) - int(6) = 0.000000000355, so you want that to equal 0 

@@ -20,3 +20,15 @@ void WorkoutNotes::onChange(wxCommandEvent & WXUNUSED(event))
   { // sends the contents of notes (a wxString) to parent so it can be stored in a StoreRun
   m_parent->ChangeComments(notes->GetValue(), ID);
   }
+
+void WorkoutNotes::SetValue(const std::string in)
+  {
+  std::cout << "SetValue"<< std::endl;
+  notes->SetValue(wxString(in.c_str(), wxConvUTF8));
+  }
+
+void WorkoutNotes::SetValue(const wxChar* in)
+  {
+  notes->SetValue(in);
+  }
+

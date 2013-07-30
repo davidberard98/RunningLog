@@ -12,7 +12,7 @@ DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, rlIds *idm, int iid, 
   mpid=IdManage->get(ID, 3);
 
   //inintializing the different panels
-  dow = new DayOfWeek(this, IdManage, dowid, wxString(today.dow().c_str(), wxConvUTF8).wc_str());
+  dow = new DayOfWeek(this, IdManage, dowid, today);
   wn = new WorkoutNotes(this, IdManage, wnid, 300, wxT("Notes on Workout:"));
   awn = new WorkoutNotes(this, IdManage, awnid, 200, wxT("Additional activities:"));
   mp = new MilesPanel(this, IdManage, mpid);
@@ -24,6 +24,8 @@ DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, rlIds *idm, int iid, 
   hs->Add(awn, 0, wxALL, 10);
   hs->Add(mp, 0, /*wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALIGN_CENTER_HORIZONTAL |*/ wxALL, 10);
   this->SetSizer(hs);
+
+  update();
   }
 
 //void DailyPanel::Change[Something] passes something to the parent (MyFrame) to store in a StoreRun
@@ -35,9 +37,10 @@ void DailyPanel::ChangeComments(const wxChar* comm, int inid) //inid is used bec
     m_parent->ChangeMoreComments(comm, today);
   }
 
-void DailyPanel::ChangeDistance(const double d)
+void DailyPanel::ChangeDistance(double d)
   {
-  m_parent->ChangeDistance(d, today);
+    std::cout << "DP::CD" << std::endl;
+    m_parent->ChangeDistance(d, today);
   }
 
 void DailyPanel::ChangeType(bool t)
@@ -47,6 +50,7 @@ void DailyPanel::ChangeType(bool t)
 
 void DailyPanel::ChangeTime(double t)
   {
+//  std::cout << "DP::CT" << std::endl;
   m_parent->ChangeTime(t, today);
   }
 
@@ -63,4 +67,45 @@ void DailyPanel::SwitchTabPanel()
 void DailyPanel::SetFocusFromKbd()
   {
   mp->SetFocusFromKbd();
+  }
+
+void DailyPanel::update(Dates day)
+  {
+  today.set(day);
+  dow->SetDate(today);
+  update();
+  }
+
+void DailyPanel::update()
+  {
+  std::string comments = m_parent->storage.GetComments(today);
+  std::string moreComments = m_parent->storage.GetMoreComments(today);
+  int feeling = m_parent->storage.GetFeeling(today);
+  double distance = m_parent->storage.GetDistance(today);
+  bool type = m_parent->storage.GetType(today);
+  double time = m_parent->storage.GetTime(today);
+
+  if(feeling >= 1 && feeling <= 5)
+    dow->SetFeeling(feeling);
+  else
+    dow->SetFeeling(5);
+
+  std::cout << comments << " from " << today.FullDate() << std::endl;
+  if(comments != "")
+    wn->SetValue(comments);
+  else
+    wn->SetValue("Notes on Workout:");
+
+  if(moreComments != "")
+    awn->SetValue(moreComments);
+  else
+    awn->SetValue("Additional activites:");
+ 
+  mp->SetDistance(distance);
+//  mp->SetDistance(1.0);
+
+  mp->SetType(type);
+
+  mp->SetTime(time);
+
   }

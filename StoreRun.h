@@ -23,7 +23,7 @@ public:
   bool AddTime(double, Dates);
   bool AddType(bool, Dates);
   bool AddMilesOrKm(bool, Dates);
-  bool AddDistance(const double, Dates);
+  bool AddDistance(double, Dates);
   bool AddFeeling(int, Dates);
   bool AddSeason(std::string, Dates);
   bool AddSeason(std::string, int, Dates);
@@ -33,7 +33,14 @@ public:
   void ListSeasons(std::vector<std::string>&) const;
   std::string season(Dates day) const;
   int WeekNumber(Dates day) const;
+  std::string GetSeason(Dates day) const;
+  int GetWeekNumber(Dates day) const;
   double GetDistance(Dates day) const;
+  std::string GetComments(Dates day) const;
+  std::string GetMoreComments(Dates day) const;
+  double GetTime(Dates day) const;
+  int GetFeeling(Dates day) const;
+  bool GetType(Dates day) const;
   
   int idOfDay(Dates) const;
 

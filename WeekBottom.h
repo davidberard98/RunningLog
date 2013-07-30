@@ -34,6 +34,7 @@ public:
   void clickNextWeek(wxCommandEvent & event);
   void clickSkipTo(wxCommandEvent & event);
   void onTabDown(wxNavigationKeyEvent & event);
+  void update(Dates day);
   void update();
   void SetFocusFromKbd();
 

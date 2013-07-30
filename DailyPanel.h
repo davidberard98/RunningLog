@@ -29,15 +29,17 @@ public:
   WorkoutNotes *wn;
   WorkoutNotes *awn;
   DayOfWeek *dow;
-  const Dates today;
+  Dates today;
 
   void ChangeComments(const wxChar* comm, int inid);
-  void ChangeDistance(const double d);
+  void ChangeDistance(double d);
   void ChangeType(bool t);
   void ChangeTime(double t);
   void ChangeFeeling(int f);
   void SwitchTabPanel();
   void SetFocusFromKbd();
+  void update(Dates day);
+  void update();
 
 //  DECLARE_EVENT_TABLE()
 };

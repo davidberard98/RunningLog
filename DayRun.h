@@ -28,9 +28,9 @@ public:
   double time; //run time
   double distance;
   bool milesOrKm; // true = miles, false = km
+  int feeling;
   int week; // week of the season
   std::string season;
-  int feeling;
 
 private:
 

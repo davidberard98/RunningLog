@@ -1,3 +1,5 @@
+Running with wxWidgets 2.8
+
 On Linux:
   Install g++, wxWidgets, and make
     On Ubuntu: 'sudo apt-get install libwxgtk2.8-dev libwxgtk2.8-dbg build-essential'

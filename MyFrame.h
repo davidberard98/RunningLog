@@ -30,7 +30,7 @@ public:
   MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int ypos, int width, int height);
   ~MyFrame();
   //wxPanel *m_parent;
-  Dates current;
+  Dates today;
   RLog *r_parent;
   rlIds *IdManage;
   int ID;
@@ -50,6 +50,8 @@ public:
   void UpdateWeekInfo();
   void UpdateWeeklyDistance();
   void SwitchTabPanel(int currentID);
+  void UpdateDailyPanels(Dates day);
+  void UpdateDailyPanels();
 
   std::vector<std::string> ListSeasons() const;
 

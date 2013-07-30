@@ -34,6 +34,8 @@ int month() const;
 //Dates weekBegin(int) const;
 std::string dow() const;
 std::string FullDate() const; 
+std::string DateWithoutDow() const; 
+std::string ShortDate() const;
 bool operator== (const Dates&) const;
 bool operator!= (const Dates&) const;
 bool operator< (const Dates&) const;

@@ -78,14 +78,20 @@ WeekBottom::WeekBottom(wxWindow *parent, MyFrame *realparent, rlIds *idm, int ii
 void WeekBottom::clickLastWeek(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "Last Week" << std::endl;
+  m_parent->UpdateDailyPanels(begin.setNew(-7));
   }
 void WeekBottom::clickNextWeek(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "Next Week" << std::endl;
+  m_parent->UpdateDailyPanels(begin.setNew(7));
   }
 void WeekBottom::clickSkipTo(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "Skip To" << std::endl;
+  //getting values of month and year to skip to
+  int month = Dates::ShortMonthToInt(std::string(SkipToMonth->GetValue().mb_str()));
+  int year = Dates::stringToDouble(std::string(SkipToYear->GetValue().mb_str()));
+  m_parent->UpdateDailyPanels(Dates(7, month, year)); //7 because if Janruary 2014 = wednesday, we want week of Jan 6-12, not Dec 30-Jan 5
   }
 
 void WeekBottom::onTabDown(wxNavigationKeyEvent & event)
@@ -101,6 +107,12 @@ void WeekBottom::onTabDown(wxNavigationKeyEvent & event)
     else if(nextfocus != 1)
       FindWindow(nextfocus)->SetFocus();
     }
+  }
+
+void WeekBottom::update(Dates day)
+  {
+  begin.set(day);
+  update();
   }
 
 void WeekBottom::SetFocusFromKbd()

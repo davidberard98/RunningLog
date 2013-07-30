@@ -20,7 +20,7 @@ WeekInfo::WeekInfo(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, i
   
   // changes the date to text
   ActualDateLabel = new wxStaticText(this, wxID_ANY, wxT("Week of "), wxDefaultPosition);
-  std::string DateString = begin.FullDate();
+  std::string DateString = begin.DateWithoutDow();
   wxString wxDateString(DateString.c_str(), wxConvUTF8);
   ActualDate = new wxStaticText(this, wxID_ANY, wxDateString, wxDefaultPosition);
   ActualDate->SetFont(BoldFont); //sets it to bold
@@ -59,6 +59,13 @@ void WeekInfo::Edit(wxCommandEvent & WXUNUSED(event))
   int seid = IdManage->get(ID);
   SeasonsEdit *se = new SeasonsEdit(m_parent, IdManage, seid, wxT("Running Log: Manage Training Seasons"), 150, 150, 600, 200);
   se->Show(true);
+  }
+
+void WeekInfo::update(Dates day)
+  {
+  begin.set(day.weekBegin());
+  ActualDate->SetLabel(wxString(begin.DateWithoutDow().c_str(), wxConvUTF8));
+  update();
   }
 
 void WeekInfo::update()

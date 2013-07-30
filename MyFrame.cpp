@@ -8,25 +8,25 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   m_parent = new wxScrolledWindow(this, wxID_ANY); //all vectors will
   
   //Initializing dates to determine what days are opened to when program opens
-  Dates today;
   today = today.weekBegin();
-  current = today;
   
   //Assigning valid Ids. Ids don't need to be put in a group, but at some point they might be
   int wiid = IdManage->get(); //isn't part of tab sequence so it doesn't need to be part of group(ID)
+  int wbid = IdManage->get(ID);
   std::vector < int > dpid;
   for(int i=0;i<7;++i)
     {
     dpid.push_back(IdManage->get(ID));
     std::cout << "  " <<dpid[i] << "  " << IdManage->IdOfOrder(ID, i) << std::endl;
     }
-  int wbid = IdManage->get(ID);
   std::cout << "  " <<wbid << "  " << IdManage->IdOfOrder(ID, 7) <<  std::endl;
   std::cout << IdManage->size(ID) << std::endl;
 
   //Panel at the top with date, season, week#
   weekinfo = new WeekInfo(m_parent, this, IdManage, wiid, storage.WeekNumber(today), storage.season(today), today);
 
+  weekbottom = new WeekBottom(m_parent, this, IdManage, wbid, today);
+  
   //Day of week, workout notes, miles, time, etc.  Inserting pointers to vector for storage & easier access
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[0], today));
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[1], today.setNew(1)));
@@ -36,21 +36,19 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[5], today.setNew(5)));
   days.push_back(new DailyPanel(m_parent, this, IdManage, dpid[6], today.setNew(6)));
 
-  weekbottom = new WeekBottom(m_parent, this, IdManage, wbid, today);
-  
   //spacing the weekinfo and DailyPanels horizontally
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(weekinfo, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, 5);
+  sizer->Add(weekbottom, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
   for(int i=0;i<days.size();++i)
     {
     sizer->Add(days[i], 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
     }
-  sizer->Add(weekbottom, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
   m_parent->SetSizer(sizer);
   
   // this part makes the scrollbars show up
   m_parent->FitInside(); // ask the sizer about the needed size
-  m_parent->SetScrollRate(5, 5);
+  m_parent->SetScrollRate(20, 20);
   }
 
 MyFrame::~MyFrame()
@@ -108,4 +106,21 @@ void MyFrame::SwitchTabPanel(int currentID)
   int nextID = IdManage->next(ID, currentID);
   if(nextID != -1)
     FindWindow(nextID)->SetFocusFromKbd();
+  }
+
+void MyFrame::UpdateDailyPanels(Dates day)
+  {
+  today.set(day.weekBegin());
+  UpdateDailyPanels();
+  }
+
+void MyFrame::UpdateDailyPanels()
+  {
+  std::cout << "UpdateDailyPanels" << std::endl;
+  for(int i=0;i<days.size();++i)
+    {
+    days[i]->update(today.setNew(i));
+    }
+  weekbottom->update(today);
+  weekinfo->update(today);
   }

@@ -34,6 +34,7 @@ public:
   wxBoxSizer *sizer;
 
   void Edit(wxCommandEvent & event);
+  void update(Dates day);
   void update();
 
 /*
