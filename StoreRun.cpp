@@ -163,6 +163,23 @@ std::vector<std::string> StoreRun::ListSeasons() const
   return out;
   }
 
+bool StoreRun::save()
+  {
+  std::ofstream myfile("DavidBerard.runninglog");
+  std::cout << "save" << std::endl;
+  myfile << "<RL>\n";
+  std::cout << "save2" << std::endl;
+  for(int i=0;i<storage.size();++i)
+    {
+    myfile << storage[i].XML();
+    }
+  std::cout << "After for" << std::endl;
+  myfile << "</RL>";
+  myfile.close();
+  std::cout << "Done Saving" << std::endl;
+  return true;
+  }
+
 void StoreRun::ListSeasons(std::vector<std::string> &seas) const
   {
   seas.clear();

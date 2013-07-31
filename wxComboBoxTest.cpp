@@ -19,6 +19,8 @@ class myFrame : public wxFrame
     wxStaticText *st;
     wxTextCtrl *tc;
     wxButton *change;
+    wxMenuBar *menubar;
+    wxMenu *file;
     //wxWindowId *cbid;
     int cbid, tcid, utid, chid;
     void onChangeCombo(wxCommandEvent & event);
@@ -65,6 +67,14 @@ myFrame::myFrame()
   sz->Add(tc, 0, wxALL, 10);
   sz->Add(change, 0, wxALL, 10);
   this->SetSizer(sz);
+
+  menubar = new wxMenuBar;
+  file = new wxMenu;
+  file->Append(12344, wxT("&New\tCtrl+N"));
+  file->Append(12345, wxT("&Save\tCtrl+S"));
+  file->Append(wxID_EXIT, wxT("&Quit"));
+  menubar->Append(file, wxT("&File"));
+  SetMenuBar(menubar);
   }
 
 void myFrame::changeButton(wxCommandEvent & WXUNUSED(event))

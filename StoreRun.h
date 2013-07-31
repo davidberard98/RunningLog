@@ -5,6 +5,7 @@
 #include "DayRun.h"
 #include <wx/string.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "Dates.h"
 
@@ -41,6 +42,7 @@ public:
   double GetTime(Dates day) const;
   int GetFeeling(Dates day) const;
   bool GetType(Dates day) const;
+  bool save();
   
   int idOfDay(Dates) const;
 

@@ -1,7 +1,7 @@
 #ifndef DayRun_h_wxWidgets_Running_Log
 #define DayRun_h_wxWidgets_Running_Log
 
-#include <wx/string.h>
+//#include <wx/string.h>
 #include <string>
 
 #include "Dates.h"
@@ -21,6 +21,8 @@ public:
   void updateType(bool);
   void updateMilesOrKm(bool);
   void clear();
+  std::string XML() const;
+  static std::string ReplaceInvalidCharacters(std::string);
 
   Dates day; //perhaps stored [a-zA-Z day][month A-Z][year a-zA-Z][year a-zA-Z] -> uses 32 bits.
   std::string comments;

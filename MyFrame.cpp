@@ -6,7 +6,9 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   {
   ID=IdManage->get();
   m_parent = new wxScrolledWindow(this, wxID_ANY); //all vectors will
-  
+
+  ConfigMenuBar();
+
   //Initializing dates to determine what days are opened to when program opens
   today = today.weekBegin();
   
@@ -49,10 +51,37 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   // this part makes the scrollbars show up
   m_parent->FitInside(); // ask the sizer about the needed size
   m_parent->SetScrollRate(20, 20);
+
   }
 
 MyFrame::~MyFrame()
   {}
+
+void MyFrame::ConfigMenuBar()
+  {
+  menubar = new wxMenuBar;
+  filemenu = new wxMenu;
+
+  filemenu->Append(wxID_SAVE, wxT("&Save\tCtrl+S"));
+  filemenu->Append(wxID_EXIT, wxT("&Quit\tCtrl+Q"));
+
+  Connect(wxID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrame::SavePressed ));
+  Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrame::QuitPressed ));
+
+  menubar->Append(filemenu, wxT("&File"));
+  SetMenuBar(menubar);
+  }
+
+void MyFrame::SavePressed(wxCommandEvent & WXUNUSED(event))
+  {
+  storage.save();
+  }
+
+void MyFrame::QuitPressed(wxCommandEvent & WXUNUSED(event))
+  {
+  Close(true);
+  Destroy();
+  }
 
 //All of these update the storage
 void MyFrame::ChangeComments(const wxChar* comm, const Dates day)

@@ -58,3 +58,47 @@ void DayRun::clear()
   milesOrKm=true;
   feeling=5;
   }
+
+std::string DayRun::XML() const
+  {
+  std::string out = " <DayRun>\n";
+  out += "  <year>" + Dates::its(day.year()) + "</year>\n";
+  out += "  <month>" + Dates::its(day.month()) + "</month>\n";
+  out += "  <day>" + Dates::its(day.day()) + "</day>\n";
+  if(comments != "")
+    out += "  <comments>" + ReplaceInvalidCharacters(comments) + "</comments>\n";
+  if(moreComments != "")
+    out += "  <moreComments>" + ReplaceInvalidCharacters(moreComments) + "</moreComments>\n";
+  if(time > 0.0)
+    out += "  <time>" + Dates::doubleToString(time) + "</time>\n";
+  if(distance > 0.0)
+    out += "  <distance>" + Dates::doubleToString(distance) + "</distance>\n";
+  if(milesOrKm == true)
+    out += "  <milesOrKm>1</milesOrKm>\n";
+  else
+    out += "  <milesOrKm>0</milesOrKm>\n";
+  out += "  <feeling>" + Dates::its(feeling) + "</feeling>\n";
+  if(week > 0)
+    out += "  <week>" + Dates::its(week) + "</week>\n";
+  if(season != "")
+    out += "  <season>" + ReplaceInvalidCharacters(season) + "</season>\n";
+  out += " </DayRun>\n"; 
+  return out;
+  }
+
+std::string DayRun::ReplaceInvalidCharacters(std::string in)
+{
+  std::string out;
+  for(int i=0;i<in.length();++i)
+  {
+    if(in.at(i) == '\\')
+      out+= "\\\\";
+    else if(in.at(i) == '<')
+      out+= "\\<";
+    else if(in.at(i) == '\n')
+      out+= "\\n";
+    else
+      out+=in.at(i);
+  }
+  return out;
+}

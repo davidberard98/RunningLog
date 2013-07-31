@@ -35,12 +35,15 @@ public:
   rlIds *IdManage;
   int ID;
   wxScrolledWindow *m_parent; // window allowing scrolling instead of just getting cut off
+  wxMenuBar *menubar;
+  wxMenu *filemenu;
   std::vector< DailyPanel* > days; 
   WeekInfo *weekinfo; //header information like season, week #, date
   StoreRun storage; //stores all information entered
   WeekBottom *weekbottom;
 //  DailyPanel days[7];
 
+  void ConfigMenuBar();
   void ChangeComments(const wxChar* comm, const Dates day);
   void ChangeMoreComments(const wxChar* comm, const Dates day);
   void ChangeDistance(const double d, const Dates day);
@@ -52,6 +55,8 @@ public:
   void SwitchTabPanel(int currentID);
   void UpdateDailyPanels(Dates day);
   void UpdateDailyPanels();
+  void SavePressed(wxCommandEvent & event);
+  void QuitPressed(wxCommandEvent & event);
 
   std::vector<std::string> ListSeasons() const;
 
