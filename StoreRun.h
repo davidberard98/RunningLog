@@ -43,6 +43,7 @@ public:
   int GetFeeling(Dates day) const;
   bool GetType(Dates day) const;
   bool save();
+  bool open();
   
   int idOfDay(Dates) const;
 

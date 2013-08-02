@@ -16,6 +16,101 @@ DayRun::DayRun(const DayRun& sr)
   :day(sr.day), comments(sr.comments), time(sr.time), distance(sr.distance), milesOrKm(sr.milesOrKm), week(sr.week), season(sr.season), feeling(sr.feeling)
   {}
 
+DayRun::DayRun(std::string in) //for xml 'in'
+  {
+  std::vector<std::string> contents;
+  for(int i=0;i<11;++i)
+    contents.push_back("");
+    //0 = year 1 = month 2 = day
+    //3 = comments 4 = More Comments
+    //5 = time 6 =distance 7 = type
+    //8= feeling 9= week 10 =season
+  int current =-1;
+  bool backslash = false; //monitors if the last character was a backslash
+  bool lessthan = true; // is it currently where it says 'HERE'? -> <HERE>
+  bool insidesection = false; // is it currenty where it says 'HERE'? -> <NAME>  HERE  </NAME>
+  for(int i=0;i<in.length();++i)
+    {
+//    std::cout << "'" << in.at(i) << "' " << i << std::endl;
+    if(lessthan == true)
+      {
+//      std::cout << "Not recording contents" << std::endl;
+      if( i > 0 && in.at(i-1) == '>')
+        {
+//        std::cout << "Coming out of < one of these >" << std::endl;
+        if(insidesection == false)
+          {
+//          std::cout << "Entering <name> one of these </name>" << std::endl;
+          insidesection=true;
+          lessthan = false;
+          ++current;
+          }
+        else
+          {
+//          std::cout << "Coming out of <name> one of these </name>" << std::endl;
+          insidesection = false;
+          }
+        }
+      }
+//    std::cout << lessthan << " " << insidesection << std::endl;
+    if(lessthan == false && insidesection == true)
+      {
+//      std::cout << "currently recording the contents <name> here </name>" << std::endl;
+      if(backslash == true)
+        {
+        if(in.at(i) == '\\')
+          contents[current] += '\\';
+        else if(in.at(i) == 'n')
+          contents[current] += '\n';
+        else if(in.at(i) == '<')
+          contents[current] += '<';
+        backslash = false;
+        }
+      else
+        {
+        if(in.at(i) == '\\')
+          backslash = true;
+        else
+          {
+          if(in.at(i) == '<')
+            {
+//            std::cout << "Entering < one of these >" << std::endl;
+            lessthan = true;
+            }
+          else
+            {
+            contents[current] += in.at(i);
+//            std::cout << " " << contents[current] << std::endl;
+            }
+          }
+        }
+      }
+    }
+  
+  for(int i=0;i<contents.size();++i)
+    {
+    std::cout << "  " << contents[i];
+    }
+  std::cout << std::endl;
+
+  //setting the variables
+  int year = int(Dates::stringToDouble(contents[0]));
+  int month = int(Dates::stringToDouble(contents[1]));
+  int date = int(Dates::stringToDouble(contents[2]));
+  day = Dates(date, month, year);
+  comments = contents[3];
+  moreComments = contents[4];
+  time = Dates::stringToDouble(contents[5]);
+  distance = Dates::stringToDouble(contents[6]);
+  if(contents[7] == "1")
+    milesOrKm = true;
+  else
+    milesOrKm = false;
+  feeling = int(Dates::stringToDouble(contents[8]));
+  week = int(Dates::stringToDouble(contents[9]));
+  season = contents[10];
+  }
+
 void DayRun::update(std::string comm, std::string mcomm, double t, double dist, bool type, int feel, int wk, std::string seas)
   {
   if(comm != "" && comm != "NULL")

@@ -56,6 +56,7 @@ public:
   void UpdateDailyPanels(Dates day);
   void UpdateDailyPanels();
   void SavePressed(wxCommandEvent & event);
+  void OpenPressed(wxCommandEvent & event);
   void QuitPressed(wxCommandEvent & event);
 
   std::vector<std::string> ListSeasons() const;

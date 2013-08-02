@@ -63,9 +63,11 @@ void MyFrame::ConfigMenuBar()
   filemenu = new wxMenu;
 
   filemenu->Append(wxID_SAVE, wxT("&Save\tCtrl+S"));
+  filemenu->Append(wxID_OPEN, wxT("&Open\tCtrl+O"));
   filemenu->Append(wxID_EXIT, wxT("&Quit\tCtrl+Q"));
 
   Connect(wxID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrame::SavePressed ));
+  Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrame::OpenPressed ));
   Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrame::QuitPressed ));
 
   menubar->Append(filemenu, wxT("&File"));
@@ -77,8 +79,16 @@ void MyFrame::SavePressed(wxCommandEvent & WXUNUSED(event))
   storage.save();
   }
 
+void MyFrame::OpenPressed(wxCommandEvent & WXUNUSED(event))
+  {
+  std::cout << "OPEN" << std::endl;
+  UpdateDailyPanels();
+  storage.open();
+  }
+
 void MyFrame::QuitPressed(wxCommandEvent & WXUNUSED(event))
   {
+  std::cout << "QUIT" << std::endl;
   Close(true);
   Destroy();
   }

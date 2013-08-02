@@ -3,6 +3,7 @@
 
 //#include <wx/string.h>
 #include <string>
+#include <vector>
 
 #include "Dates.h"
 
@@ -10,6 +11,7 @@ class DayRun
 {
 public:
   DayRun(Dates);//dmy
+  DayRun(std::string);//xml stuff
   DayRun(Dates, int, std::string);//dmy week season
   DayRun(Dates, std::string, std::string, double, double, bool, int);
   //      dmy     comments      moreC     time     dist   mi/km feel wk  season
