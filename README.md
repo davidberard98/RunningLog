@@ -11,13 +11,11 @@ On Windows: (never tested this)
   move 'Makefile.windows' to 'Makefile'
   run 'make' to compile.
 
-Dev to note:
-  int StoreId = wxID_ANY; will just result in StoreId = -1, except it will actually assign -1 to be the ID, not a random number, so you end up with a whole bunch of objects with ID = -1.
+  int StoreId = wxID\_ANY; will just result in StoreId = -1, except it will actually assign -1 to be the ID, not a random number, so you end up with a whole bunch of objects with ID = -1.
 
-To Do:
-  -Correct weekPanel to use Dates
-  -make weekPanel actually editable
-    |Open a different frame
-    |Store a list of seasons to make life easier
-    |
-    |
+Also:
+  This software uses pugixml as a xml parser (http://pugixml.org).
+  pugixml is Copyright (C) 2006-2012 Arseny Kapoulkine. 
+
+  Copyright (c) 2006-2012 Arseny Kapoulkine
+ 

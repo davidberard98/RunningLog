@@ -82,8 +82,8 @@ void MyFrame::SavePressed(wxCommandEvent & WXUNUSED(event))
 void MyFrame::OpenPressed(wxCommandEvent & WXUNUSED(event))
   {
   std::cout << "OPEN" << std::endl;
-  UpdateDailyPanels();
   storage.open();
+  UpdateDailyPanels();
   }
 
 void MyFrame::QuitPressed(wxCommandEvent & WXUNUSED(event))

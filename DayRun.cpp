@@ -16,99 +16,23 @@ DayRun::DayRun(const DayRun& sr)
   :day(sr.day), comments(sr.comments), time(sr.time), distance(sr.distance), milesOrKm(sr.milesOrKm), week(sr.week), season(sr.season), feeling(sr.feeling)
   {}
 
-DayRun::DayRun(std::string in) //for xml 'in'
+DayRun::DayRun(pugi::xml_node& in)
+    :milesOrKm(true)
   {
-  std::vector<std::string> contents;
-  for(int i=0;i<11;++i)
-    contents.push_back("");
-    //0 = year 1 = month 2 = day
-    //3 = comments 4 = More Comments
-    //5 = time 6 =distance 7 = type
-    //8= feeling 9= week 10 =season
-  int current =-1;
-  bool backslash = false; //monitors if the last character was a backslash
-  bool lessthan = true; // is it currently where it says 'HERE'? -> <HERE>
-  bool insidesection = false; // is it currenty where it says 'HERE'? -> <NAME>  HERE  </NAME>
-  for(int i=0;i<in.length();++i)
-    {
-//    std::cout << "'" << in.at(i) << "' " << i << std::endl;
-    if(lessthan == true)
-      {
-//      std::cout << "Not recording contents" << std::endl;
-      if( i > 0 && in.at(i-1) == '>')
-        {
-//        std::cout << "Coming out of < one of these >" << std::endl;
-        if(insidesection == false)
-          {
-//          std::cout << "Entering <name> one of these </name>" << std::endl;
-          insidesection=true;
-          lessthan = false;
-          ++current;
-          }
-        else
-          {
-//          std::cout << "Coming out of <name> one of these </name>" << std::endl;
-          insidesection = false;
-          }
-        }
-      }
-//    std::cout << lessthan << " " << insidesection << std::endl;
-    if(lessthan == false && insidesection == true)
-      {
-//      std::cout << "currently recording the contents <name> here </name>" << std::endl;
-      if(backslash == true)
-        {
-        if(in.at(i) == '\\')
-          contents[current] += '\\';
-        else if(in.at(i) == 'n')
-          contents[current] += '\n';
-        else if(in.at(i) == '<')
-          contents[current] += '<';
-        backslash = false;
-        }
-      else
-        {
-        if(in.at(i) == '\\')
-          backslash = true;
-        else
-          {
-          if(in.at(i) == '<')
-            {
-//            std::cout << "Entering < one of these >" << std::endl;
-            lessthan = true;
-            }
-          else
-            {
-            contents[current] += in.at(i);
-//            std::cout << " " << contents[current] << std::endl;
-            }
-          }
-        }
-      }
-    }
-  
-  for(int i=0;i<contents.size();++i)
-    {
-    std::cout << "  " << contents[i];
-    }
-  std::cout << std::endl;
-
-  //setting the variables
-  int year = int(Dates::stringToDouble(contents[0]));
-  int month = int(Dates::stringToDouble(contents[1]));
-  int date = int(Dates::stringToDouble(contents[2]));
-  day = Dates(date, month, year);
-  comments = contents[3];
-  moreComments = contents[4];
-  time = Dates::stringToDouble(contents[5]);
-  distance = Dates::stringToDouble(contents[6]);
-  if(contents[7] == "1")
-    milesOrKm = true;
-  else
+  day = Dates(in.attribute("d").as_int(), in.attribute("m").as_int(), in.attribute("y").as_int());
+  // ... …
+  comments = in.attribute("comments").value();
+  moreComments = in.attribute("comments").value();
+  if(in.attribute("time").value() != "")
+    time = Dates::stringToDouble(in.attribute("time").value());
+  if(in.attribute("distance").value() != "")
+    distance = Dates::stringToDouble(in.attribute("distance").value());
+  if(in.attribute("type").value() == "0")
     milesOrKm = false;
-  feeling = int(Dates::stringToDouble(contents[8]));
-  week = int(Dates::stringToDouble(contents[9]));
-  season = contents[10];
+  if(in.attribute("week").value() != "")
+    week = int(Dates::stringToDouble(in.attribute("week").value()));
+  season = in.attribute("season").value();
+  
   }
 
 void DayRun::update(std::string comm, std::string mcomm, double t, double dist, bool type, int feel, int wk, std::string seas)
@@ -154,31 +78,28 @@ void DayRun::clear()
   feeling=5;
   }
 
-std::string DayRun::XML() const
-  {
-  std::string out = " <DayRun>\n";
-  out += "  <year>" + Dates::its(day.year()) + "</year>\n";
-  out += "  <month>" + Dates::its(day.month()) + "</month>\n";
-  out += "  <day>" + Dates::its(day.day()) + "</day>\n";
+void DayRun::XML(pugi::xml_node& rl) const
+  { //pugixml
+  pugi::xml_node thisNode = rl.append_child("DayRun");
+  
+  //will put it in as <DayRun d="4" m="8" ...etc... />
+  thisNode.append_attribute("d") = Dates::its(day.day()).c_str();
+  thisNode.append_attribute("m") = Dates::its(day.month()).c_str();
+  thisNode.append_attribute("y") = Dates::its(day.year()).c_str();
   if(comments != "")
-    out += "  <comments>" + ReplaceInvalidCharacters(comments) + "</comments>\n";
+    thisNode.append_attribute("comments") = comments.c_str();
   if(moreComments != "")
-    out += "  <moreComments>" + ReplaceInvalidCharacters(moreComments) + "</moreComments>\n";
+    thisNode.append_attribute("moreComments") = moreComments.c_str();
   if(time > 0.0)
-    out += "  <time>" + Dates::doubleToString(time) + "</time>\n";
+    thisNode.append_attribute("time") = Dates::doubleToString(time).c_str();
   if(distance > 0.0)
-    out += "  <distance>" + Dates::doubleToString(distance) + "</distance>\n";
-  if(milesOrKm == true)
-    out += "  <milesOrKm>1</milesOrKm>\n";
-  else
-    out += "  <milesOrKm>0</milesOrKm>\n";
-  out += "  <feeling>" + Dates::its(feeling) + "</feeling>\n";
+    thisNode.append_attribute("distance") = Dates::doubleToString(distance).c_str();
+  thisNode.append_attribute("type") = Dates::its(int(milesOrKm)).c_str();
   if(week > 0)
-    out += "  <week>" + Dates::its(week) + "</week>\n";
+    thisNode.append_attribute("week") = Dates::its(week).c_str();
   if(season != "")
-    out += "  <season>" + ReplaceInvalidCharacters(season) + "</season>\n";
-  out += " </DayRun>\n"; 
-  return out;
+    thisNode.append_attribute("season") = season.c_str();
+
   }
 
 std::string DayRun::ReplaceInvalidCharacters(std::string in)

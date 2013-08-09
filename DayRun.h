@@ -4,6 +4,7 @@
 //#include <wx/string.h>
 #include <string>
 #include <vector>
+#include "pugixml/pugixml.hpp"
 
 #include "Dates.h"
 
@@ -11,7 +12,7 @@ class DayRun
 {
 public:
   DayRun(Dates);//dmy
-  DayRun(std::string);//xml stuff
+  DayRun(pugi::xml_node&); //for XML reading
   DayRun(Dates, int, std::string);//dmy week season
   DayRun(Dates, std::string, std::string, double, double, bool, int);
   //      dmy     comments      moreC     time     dist   mi/km feel wk  season
@@ -23,7 +24,7 @@ public:
   void updateType(bool);
   void updateMilesOrKm(bool);
   void clear();
-  std::string XML() const;
+  void XML(pugi::xml_node&) const;
   static std::string ReplaceInvalidCharacters(std::string);
 
   Dates day; //perhaps stored [a-zA-Z day][month A-Z][year a-zA-Z][year a-zA-Z] -> uses 32 bits.

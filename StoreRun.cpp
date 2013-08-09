@@ -165,81 +165,35 @@ std::vector<std::string> StoreRun::ListSeasons() const
 
 bool StoreRun::save()
   {
-  std::ofstream myfile("DavidBerard.runninglog");
-  std::cout << "save" << std::endl;
-  myfile << "<RL>\n";
-  std::cout << "save2" << std::endl;
+  pugi::xml_document doc;
+
+  pugi::xml_node RL = doc.append_child("RL");
+  
   for(int i=0;i<storage.size();++i)
     {
-    myfile << storage[i].XML();
+    storage[i].XML(RL);
     }
-  std::cout << "After for" << std::endl;
-  myfile << "</RL>";
-  myfile.close();
-  std::cout << "Done Saving" << std::endl;
+  
+  doc.save_file("DavidBerard.xml");
+  std::cout << "Successfully saved" << std::endl;
+
   return true;
   }
 
 bool StoreRun::open()
   {
-  std::ifstream myfile("DavidBerard.runninglog");
-  std::string contents;
-  if(myfile.is_open()) // basically get the contents of the file into std::string contents
-    {
-    while(myfile.good()) // gets it by line
-      {
-      std::string line;
-      getline(myfile, line);
-      contents+=line;
-      }
-    }
-  std::vector<std::string> drs;
-  std::string current;
-  bool inside = false;
-  for(int i=0;i<contents.length();++i) //split it up based on <DayRun> __drs[0]__ </DayRun><DayRun> __drs[1]__ </DayRun>
-    {
-    if(i > 7
-    && inside == false
-    && contents.at(i-8) == '<'
-    && contents.at(i-7) == 'D'
-    && contents.at(i-6) == 'a'
-    && contents.at(i-5) == 'y'
-    && contents.at(i-4) == 'R'
-    && contents.at(i-3) == 'u'
-    && contents.at(i-2) == 'n'
-    && contents.at(i-1) == '>')
-      {
-      std::cout << " ====> " << contents.at(i) << std::endl;
-      current = "";
-      inside = true;
-      }
-    if(contents.length() - i > 8
-    && inside == true
-    && contents.at(i) == '<'
-    && contents.at(i+1) == '/'
-    && contents.at(i+2) == 'D'
-    && contents.at(i+3) == 'a'
-    && contents.at(i+4) == 'y'
-    && contents.at(i+5) == 'R'
-    && contents.at(i+6) == 'u'
-    && contents.at(i+7) == 'n'
-    && contents.at(i+8) == '>')
-      {
-      drs.push_back(current); 
-      current = "";
-      inside = false;
-      }
-    if(inside == true)
-      {
-      current += contents.at(i);
-      }
-    }
-  std::cout << "looked through contents" << std::endl;
   storage.clear();
-  for(int i=0;i<drs.size();++i)
+
+  pugi::xml_document doc;
+  doc.load_file("DavidBerard.xml");
+
+  pugi::xml_node RL = doc.child("RL");
+
+  for(pugi::xml_node DR = RL.child("DayRun"); DR; DR = DR.next_sibling("DayRun"))
     {
-    storage.push_back(DayRun(drs[i]));
+    storage.push_back(DayRun(DR));
     }
+  
   return true;
   }
 
