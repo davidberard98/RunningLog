@@ -3,7 +3,7 @@
   //parent and rparent are different because the real parent is rparent, but parent is actually a wxScrolledWindow
 DailyPanel::DailyPanel(wxWindow *parent, MyFrame *rparent, rlIds *idm, int iid, const Dates tday)
     :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS), today(tday)
-    , ID(iid), IdManage(idm), m_parent(rparent)
+    , ID(iid), IdManage(idm), m_parent(rparent), tabdirection(true)
   {
   //sets IDs with group=int(ID) and tabbing order [0-3], in case tabbing bewteen panels is ever enabled
   dowid=IdManage->get(ID, 0);
@@ -61,11 +61,13 @@ void DailyPanel::ChangeFeeling(int f)
 
 void DailyPanel::SwitchTabPanel()
   {
+  m_parent->tabdirection=tabdirection;
   m_parent->SwitchTabPanel(ID); // to let it know which panel is currently focused on
   }
 
 void DailyPanel::SetFocusFromKbd()
   {
+  tabdirection=m_parent->tabdirection;
   mp->SetFocusFromKbd();
   }
 

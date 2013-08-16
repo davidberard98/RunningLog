@@ -2,7 +2,7 @@
 
 MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int ypos, int width, int height)
     :wxFrame((wxFrame *) NULL, -1, title, wxPoint(xpos, ypos), wxSize(width, height), wxDEFAULT_FRAME_STYLE | wxWANTS_CHARS)
-    ,IdManage(idm), r_parent(parent)
+    ,IdManage(idm), r_parent(parent), tabdirection(true)
   {
   ID=IdManage->get();
   m_parent = new wxScrolledWindow(this, wxID_ANY); //all vectors will
@@ -51,7 +51,8 @@ MyFrame::MyFrame(RLog *parent, rlIds *idm, const wxChar *title, int xpos, int yp
   // this part makes the scrollbars show up
   m_parent->FitInside(); // ask the sizer about the needed size
   m_parent->SetScrollRate(20, 20);
-
+  storage.open();
+  UpdateDailyPanels();
   }
 
 MyFrame::~MyFrame()
@@ -142,7 +143,14 @@ void MyFrame::UpdateWeeklyDistance()
 
 void MyFrame::SwitchTabPanel(int currentID)
   {
-  int nextID = IdManage->next(ID, currentID);
+  int nextID;
+  if(tabdirection == true)
+    nextID = IdManage->next(ID, currentID);
+  else
+    nextID = IdManage->last(ID, currentID); 
+
+  std::cout << "    nextID: "<< nextID << std::endl;
+
   if(nextID != -1)
     FindWindow(nextID)->SetFocusFromKbd();
   }

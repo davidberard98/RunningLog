@@ -23,7 +23,11 @@ public:
 //      group (order assigned automatically)
   int get(int, int);
 //      group, order
+  int incr(int, int, int); //returns ID - the functionality for next() and last()
+//      group, current Id, ++ or --.
   int next(int, int); //returns ID
+//      group, current Id
+  int last(int, int); //returns ID
 //      group, current Id
   void removeGroup(int);
   int OrderOfId(int, int) const; //returns order
@@ -31,6 +35,8 @@ public:
   int IdOfOrder(int, int) const; //returns ID
 //             group order
   int size(int) const; //group size
+//                 ID
+  int getLocation(int) const; //location in the vector
 
 private:
   int current;

@@ -6,7 +6,7 @@ END_EVENT_TABLE()
 
 WeekBottom::WeekBottom(wxWindow *parent, MyFrame *realparent, rlIds *idm, int iid, Dates day)
     :wxPanel(parent, iid, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxWANTS_CHARS | wxTAB_TRAVERSAL)
-    , ID(iid), IdManage(idm), begin(day), m_parent(realparent)
+    , ID(iid), IdManage(idm), begin(day), m_parent(realparent), tabdirection(true)
   {
   //set IDs
   LastWeekID = IdManage->get(ID);
@@ -100,11 +100,31 @@ void WeekBottom::onTabDown(wxNavigationKeyEvent & event)
   if(event.IsFromTab())
     {
     int currentfocus = FindFocus()->GetId();
-    int nextfocus = IdManage->next(ID, currentfocus);
-    std::cout << currentfocus << " " << nextfocus << std::endl;
-    if(nextfocus == IdManage->IdOfOrder(ID, 0)) // if next is the first element, go to the next panel
-      m_parent->SwitchTabPanel(ID);
-    else if(nextfocus != 1)
+    int nextfocus; bool switched = false;
+    if(event.GetDirection()) // forward tab (TAB)
+      {
+      nextfocus = IdManage->next(ID, currentfocus);
+      tabdirection = true; //tabbing forward
+      if(nextfocus == IdManage->IdOfOrder(ID, 0)) // if next is the first element, go to the next panel
+        {
+        m_parent->tabdirection=tabdirection;
+        m_parent->SwitchTabPanel(ID);
+        switched = true;
+        }
+      }
+    else // backward tab (SHIFT-TAB)
+      {
+      nextfocus = IdManage->last(ID, currentfocus);
+      tabdirection = false; 
+      if(nextfocus == IdManage->IdOfOrder(ID, IdManage->size(ID)-1)) // if next is the last element, go to the next panel
+        {
+        m_parent->tabdirection=tabdirection; // tabdirection gets passed down to let the next panel know 
+                                             // whether to start at beginning or end - see MyFrame.h
+        m_parent->SwitchTabPanel(ID);
+        switched = true;
+        }
+      }
+    if(nextfocus != 1 && switched == false)
       FindWindow(nextfocus)->SetFocus();
     }
   }
@@ -117,7 +137,11 @@ void WeekBottom::update(Dates day)
 
 void WeekBottom::SetFocusFromKbd()
   {
-  FindWindow(IdManage->IdOfOrder(ID, 0))->SetFocus();
+  tabdirection = m_parent->tabdirection;
+  if(tabdirection == true)
+    FindWindow(IdManage->IdOfOrder(ID, 0))->SetFocus();
+  else
+    FindWindow(IdManage->IdOfOrder(ID, IdManage->size(ID)-1))->SetFocus();
   }
 
 void WeekBottom::update()

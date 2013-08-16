@@ -101,11 +101,26 @@ void myFrame::onKeyDown(wxNavigationKeyEvent &event)
   if(event.IsFromTab())
     {
     int foc = FindFocus()->GetId();
-    if(foc == tcid)
-      FindWindow(cbid)->SetFocus();
-    if(foc == cbid)
-      FindWindow(tcid)->SetFocus();
-    std::cout << "TAB " << foc << std::endl;
+    if(event.GetDirection())
+      {
+      if(foc == tcid)
+        FindWindow(cbid)->SetFocus();
+      if(foc == cbid)
+        FindWindow(utid)->SetFocus();
+      if(foc == utid)
+        FindWindow(tcid)->SetFocus();
+      std::cout << "TAB " << foc << std::endl;
+      }
+    else
+      {
+      if(foc == tcid)
+        FindWindow(utid)->SetFocus();
+      if(foc == utid)
+        FindWindow(cbid)->SetFocus();
+      if(foc == cbid)
+        FindWindow(tcid)->SetFocus();
+      std::cout << "SHIFT-TAB " << foc << std::endl;
+      }
     }
   }
 

@@ -1,4 +1,8 @@
-Running with wxWidgets 2.8
+Running Log
+====
+
+Running with wxWidgets 2.8 as a GUI
+and pugixml as a xml parser.
 
 On Linux:
   Install g++, wxWidgets, and make

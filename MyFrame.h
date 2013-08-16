@@ -37,11 +37,18 @@ public:
   wxScrolledWindow *m_parent; // window allowing scrolling instead of just getting cut off
   wxMenuBar *menubar;
   wxMenu *filemenu;
-  std::vector< DailyPanel* > days; 
+  std::vector< DailyPanel* > days; //  DailyPanel days[7];
   WeekInfo *weekinfo; //header information like season, week #, date
   StoreRun storage; //stores all information entered
   WeekBottom *weekbottom;
-//  DailyPanel days[7];
+  bool tabdirection;
+    /*  If a MilesPanel is selected and a SHIFT-TAB is pressed, that should cause backwards tabbing.  However, if
+     *  the first element in the MilesPanel is focused on when the SHIFT-TAB is pressed, it needs to go to set the 
+     *  focus on a different panel, and the last element of that panel should be focused on instead of the first
+     *  element.
+     *  tabdirection gets passed down to MyFrame and the next panel checks tabdirection to see whether to
+     *  focus on the first or last element.
+     */
 
   void ConfigMenuBar();
   void ChangeComments(const wxChar* comm, const Dates day);

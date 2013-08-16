@@ -7,7 +7,7 @@ END_EVENT_TABLE()
 MilesPanel::MilesPanel(DailyPanel *parent, rlIds *idm, int iid)
     :wxPanel(parent, 	iid, wxDefaultPosition, wxDefaultSize, 		wxBORDER_NONE | wxWANTS_CHARS |wxTAB_TRAVERSAL)
     //    parent window, id, position & size will be determined by sizers, no border, accept tab & enter, allow tabbing between objects
-    ,ID(iid), m_parent(parent), IdManage(idm), MileageSetBySetValue(false)
+    ,ID(iid), m_parent(parent), IdManage(idm), MileageSetBySetValue(false), tabdirection(true)
   {
   //assigning IDs with IdManage and setting tabbing order
   miles_textID = IdManage->get(ID, 0);
@@ -121,17 +121,44 @@ void MilesPanel::onKeyDown(wxNavigationKeyEvent &event) //tabbing between miles_
   if(event.IsFromTab())
     {
     int currentFocusId = FindFocus()->GetId(); //finds the id of the object currently focused on
-    int nextFocusId = IdManage->next(ID,currentFocusId); //finds what the id of the next object to focus on is
-    if(nextFocusId == IdManage->IdOfOrder(ID, 0)) //if the next suggested is the beginning of the sequence)
-      m_parent->SwitchTabPanel();
-    else if(nextFocusId != -1) 
-      FindWindow(nextFocusId)->SetFocus(); 
+    int nextFocusId;
+    bool switched = false;
+    if(event.GetDirection()) // forward tab (TAB)
+      {
+      nextFocusId = IdManage->next(ID,currentFocusId); //finds what the id of the next object to focus on it
+      if(nextFocusId == IdManage->IdOfOrder(ID, 0)) //if the next suggested is the beginning of the sequence)
+        {
+        tabdirection=true;
+        m_parent->tabdirection=true;
+        m_parent->SwitchTabPanel();
+        switched = true;
+        }
+      }
+    else // backward tab (SHIFT-TAB)
+      {
+      nextFocusId = IdManage->last(ID,currentFocusId); //finds what the id of the LAST object to focus on it
+      if(nextFocusId == IdManage->IdOfOrder(ID, IdManage->size(ID)-1)) //if the next suggested is the end of the sequence
+        {
+        tabdirection=false; 
+        m_parent->tabdirection=false; //see MyFrame.h about tabdirection
+        m_parent->SwitchTabPanel();
+        switched = true;
+        }
+      }
+    if(nextFocusId != -1 && switched==false)
+      FindWindow(nextFocusId)->SetFocus();
     }
   }
 
 void MilesPanel::SetFocusFromKbd()
   {
-  int firstitem = IdManage->IdOfOrder(ID, 0);
+  tabdirection=m_parent->tabdirection;
+  int firstitem;
+  if(tabdirection == true)
+    firstitem = IdManage->IdOfOrder(ID, 0);
+  else
+    firstitem = IdManage->IdOfOrder(ID, IdManage->size(ID)-1);
+
   if(firstitem != -1)
     FindWindow(firstitem)->SetFocus();
   }

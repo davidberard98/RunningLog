@@ -30,6 +30,7 @@ public:
   WorkoutNotes *awn;
   DayOfWeek *dow;
   Dates today;
+  bool tabdirection;
 
   void ChangeComments(const wxChar* comm, int inid);
   void ChangeDistance(double d);

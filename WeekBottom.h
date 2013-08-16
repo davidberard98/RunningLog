@@ -29,6 +29,7 @@ public:
   int SkipToMonthID, SkipToYearID, SkipToGoID;
   wxStaticText *TotalMileage;
   wxBoxSizer *sizer;
+  bool tabdirection;
 
   void clickLastWeek(wxCommandEvent & event);
   void clickNextWeek(wxCommandEvent & event);

@@ -49,17 +49,9 @@ void rlIds::removeGroup(int group)
     }
   }
 
-int rlIds::next(int group, int currentId)
+int rlIds::incr(int group, int currentId, int direction)
   {
-  int IdLocation =-1; //automatically set to -1
-  for(int i=0;i<ids.size();++i) // ids[IdLocation] == currentId - find what element of ids is equal to the id.
-    {
-    if(currentId == ids[i])
-      {
-      IdLocation=i;
-      break;
-      }
-    }
+  int IdLocation = getLocation(currentId); 
   std::cout << IdLocation << std::endl;
   if(IdLocation == -1) //don't deal with nonexistant IDs
     return -1;
@@ -73,16 +65,36 @@ int rlIds::next(int group, int currentId)
     if(correspondingGroup[i] == group)
       ++groupsize;
     }
-  if(groupsize -1 == currentOrder) //if the current element is the last element, go back to element 0
-    nextOrder =0;
-  else
-    nextOrder=currentOrder+1;
+  if(direction > 0)
+    {
+    if(groupsize -1 == currentOrder) //if the current element is the last element, go back to element 0
+      nextOrder =0;
+    else
+      nextOrder=currentOrder+1;
+    }
+  else if(direction <= 0)
+    {
+    if(currentOrder == 0)
+      nextOrder=groupsize-1;
+    else
+      nextOrder=currentOrder-1;
+    }
   for(int i=0;i<correspondingGroup.size();++i) //find the ID of the element with the specified order and group
     {
     if(correspondingGroup[i] == group && order[i] == nextOrder)
       return ids[i];
     }
   return -1;
+  }
+
+int rlIds::next(int group, int currentId)
+  {
+  return incr(group, currentId, 1);
+  }
+
+int rlIds::last(int group, int currentId)
+  {
+  return incr(group, currentId, -1);
   }
 
 int rlIds::OrderOfId(int group, int id) const
@@ -114,4 +126,18 @@ int rlIds::size(int group) const
       ++s;
     }
   return s;
+  }
+
+int rlIds::getLocation(int id) const
+  {
+  int idloc = -1;
+  for(int i=0;i<ids.size();++i) // ids[IdLocation] == currentId - find what element of ids is equal to the id.
+    {
+    if(id == ids[i])
+      {
+      idloc=i;
+      break;
+      }
+    }
+  return idloc;
   }

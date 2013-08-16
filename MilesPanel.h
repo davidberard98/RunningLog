@@ -29,6 +29,7 @@ public:
   wxTextCtrl *seconds;
   wxComboBox *miKm;
   bool MileageSetBySetValue;
+  bool tabdirection;
 
   void MilesChanged(wxCommandEvent & event);
   void MiKmChanged(wxCommandEvent & event);
