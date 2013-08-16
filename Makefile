@@ -6,50 +6,50 @@ all: RunningLog
 RunningLog: main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o SeasonsEdit.o WeekBottom.o DayRun.o StoreRun.o Dates.o rlIds.o pugixml.o
 	g++ main.o MyFrame.o MilesPanel.o WorkoutNotes.o DayOfWeek.o DailyPanel.o WeekInfo.o SeasonsEdit.o WeekBottom.o DayRun.o StoreRun.o Dates.o rlIds.o pugixml.o $(WX) -o RunningLog
 
-main.o: main.cpp
-	g++ -c main.cpp $(WX)
+main.o: src/main.cpp
+	g++ -c src/main.cpp $(WX)
 
-MyFrame.o: MyFrame.cpp
-	g++ -c MyFrame.cpp $(WX)
+MyFrame.o: src/MyFrame.cpp
+	g++ -c src/MyFrame.cpp $(WX)
 
-MilesPanel.o: MilesPanel.cpp
-	g++ -c MilesPanel.cpp $(WX)
+MilesPanel.o: src/MilesPanel.cpp
+	g++ -c src/MilesPanel.cpp $(WX)
 
-WorkoutNotes.o: WorkoutNotes.cpp
-	g++ -c WorkoutNotes.cpp $(WX)
+WorkoutNotes.o: src/WorkoutNotes.cpp
+	g++ -c src/WorkoutNotes.cpp $(WX)
 
-DayOfWeek.o: DayOfWeek.cpp
-	g++ -c DayOfWeek.cpp $(WX)
+DayOfWeek.o: src/DayOfWeek.cpp
+	g++ -c src/DayOfWeek.cpp $(WX)
 
-DailyPanel.o: DailyPanel.cpp
-	g++ -c DailyPanel.cpp $(WX)
+DailyPanel.o: src/DailyPanel.cpp
+	g++ -c src/DailyPanel.cpp $(WX)
 
-WeekInfo.o: WeekInfo.cpp
-	g++ -c WeekInfo.cpp $(WX)
+WeekInfo.o: src/WeekInfo.cpp
+	g++ -c src/WeekInfo.cpp $(WX)
 
-SeasonsEdit.o: SeasonsEdit.cpp
-	g++ -c SeasonsEdit.cpp $(WX)
+SeasonsEdit.o: src/SeasonsEdit.cpp
+	g++ -c src/SeasonsEdit.cpp $(WX)
 
-WeekBottom.o: WeekBottom.cpp
-	g++ -c WeekBottom.cpp $(WX)
+WeekBottom.o: src/WeekBottom.cpp
+	g++ -c src/WeekBottom.cpp $(WX)
 
-DayRun.o: DayRun.cpp
-	g++ -c DayRun.cpp $(WX)
+DayRun.o: src/DayRun.cpp
+	g++ -c src/DayRun.cpp $(WX)
 
-StoreRun.o: StoreRun.cpp
-	g++ -c StoreRun.cpp $(WX)
+StoreRun.o: src/StoreRun.cpp
+	g++ -c src/StoreRun.cpp $(WX)
 
-Dates.o: Dates.cpp
-	g++ -c Dates.cpp $(WX)
+Dates.o: src/Dates.cpp
+	g++ -c src/Dates.cpp $(WX)
 
-rlIds.o: rlIds.cpp
-	g++ -c rlIds.cpp $(WX)
+rlIds.o: src/rlIds.cpp
+	g++ -c src/rlIds.cpp $(WX)
 
-pugixml.o: pugixml/pugixml.cpp
-	g++ -c pugixml/pugixml.cpp
+pugixml.o: src/pugixml/pugixml.cpp
+	g++ -c src/pugixml/pugixml.cpp
 
-wxComboBoxTest: wxComboBoxTest.cpp
-	g++ wxComboBoxTest.cpp -o wxComboBoxTest $(WX)
+wxComboBoxTest: src/wxComboBoxTest.cpp
+	g++ src/wxComboBoxTest.cpp -o wxComboBoxTest $(WX)
 
 clean:
 	rm -rf *.o
