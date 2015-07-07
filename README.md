@@ -1,6 +1,9 @@
 Running Log
 ====
 
+##Note:
+I have been working on [this online running log software](https://github.com/Jeak/ggLog).  Check it out, as it is more useful and relevant than this!
+
 Running with wxWidgets 2.8 as a GUI
 and pugixml as a xml parser.
 
